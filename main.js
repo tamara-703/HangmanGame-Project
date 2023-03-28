@@ -55,15 +55,32 @@
 
         for(let i = 0; i < word.length; i++)
         {
-            arrayOfLines.push(document.createElement('p'));
+            arrayOfLines.push(document.createElement('input'));
+            arrayOfLines[i].type = 'text';
             arrayOfLines[i].classList.add('dotted-lines');
             flexContainer.appendChild(arrayOfLines[i]);
         }
-        console.log(arrayOfLines);
+
+        console.log(word);
+        decrementHealth(correctWord, arrayOfLines);
+
     }
 
-    function decrementHealth()
+    function decrementHealth(correctWord, arrayOfLines)
     {
+        const input = document.querySelector('dotted-lines');
+
+        input.addEventListener('input', function(event)
+        {
+            for(let i = 0; i < arrayOfLines.length; i++)
+            {
+                if(arrayOfLines[i] === correctWord[i])
+                {
+                    console.log("Correct letter!")
+                }
+            }
+
+        })
 
     }
 
