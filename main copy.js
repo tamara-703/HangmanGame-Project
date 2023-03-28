@@ -14,8 +14,7 @@ const incorrectLetters = "";
 const startBtn = document.querySelector(".start-btn");
 const flexContainer = document.querySelector(".flex-container");
 const instructionsEl = document.querySelector(".instructions");
-const incorrectGuesses = document.querySelector(".incorrect-counter");
-
+const userInput = document.querySelector(".user-input");
 
 
 startBtn.addEventListener('click', function (event) {
@@ -25,12 +24,34 @@ startBtn.addEventListener('click', function (event) {
         instructionsEl.textContent = 'Player turn: enter a letter';
         instructionsEl.setAttribute('class', 'instructions-design');
 
-        generateWord();
+        generateBlocks();
     }
 });
 
+//this will generate number of blocks depending on the length of the word
+function generateBlocks() {
+    //generate the letters
+    flexContainer.classList.remove("hidden");
+    //flexContainer.classList.add("visible");
+    // for (let i = 0; i < flexContainer.childElementCount; i++) {
+    //     flexContainer.children[i].classList.add("dotted-lines")
+    // }
+
+    for(let i = 65; i < 91; i++)
+    {
+        const letter = document.createElement('button');
+        letter.textContent = String.fromCharCode(i);
+        letter.classList.add("dotted-line");
+        flexContainer.appendChild(letter);
+    }
+
+    console.log(flexContainer)
+    generateRandomWord();
+
+}
+
 //this will generate a random word from the array on click
-function generateWord() {
+function generateRandomWord() {
     let random = Math.floor(Math.random() * randomWords.length);
     let word = "";
 
@@ -38,53 +59,67 @@ function generateWord() {
         word = randomWords[random];
     }
 
-    generateBlocks(word);
-
+    console.log(word);
+    guess(word);
 }
 
-//this will generate number of blocks depending on the length of the word
-function generateBlocks(word) {
-    const arrayOfLines = []; //stores empty boxes, number dependent on how many letters there are in the random word
-    const correctWord = word.split(""); //stores the correct word
-    // const form = document.createElement('form');
+let winCount = 0;
+let loseCount = 0;
 
-    const submitBtn = document.createElement('button'); //create a submit button on start
-    submitBtn.classList.add('submit-button');
-    submitBtn.textContent = 'submit';
-    flexContainer.appendChild(submitBtn);
+function guess(word)
+{
+    const correctWord = word.split("")
 
     console.log(correctWord);
 
-    for (let i = 0; i < word.length; i++) {
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.classList.add('dotted-lines');
-        flexContainer.appendChild(input);
-
-        // arrayOfLines.push(input);
-        // flexContainer.appendChild(arrayOfLines[i]);
-
-    }
-
-    console.log(flexContainer);
-
-    flexContainer.addEventListener('input',function(event)
+    flexContainer.addEventListener('click',function(event)
     {
-        
+        if(event.target)
+        {
+            for(let i = 0; i < correctWord.length; i++)
+            {
+                if(event.target.innerText === correctWord[i])
+                {
+                    winCount += 1;
+                    console.log("Correct letter!")
+                }
+            }
+        }
+
     })
 
-    // arrayOfLines[i].addEventListener('input',function(event)
-    //     {
+    // checkIfWon(winCount,correctWord);
+    // checkIfLost(loseCount,correctWord);
 
-    //             if(event.target !== correctWord[i])
-    //             {
-    //                 decrementHealth(arrayOfLines[i]);
-    //             } else
-    //             {
-    //                 correctGuess(arrayOfLines[i],correctWord[i]);
-    //             }
-    //         })
+
 }
+
+function checkIfWon(winCount,correctWord)
+{
+    if(winCount.sort() === correctWord.sort())
+    {
+        console.log("You won!")
+    }
+}
+
+
+
+
+
+
+
+// arrayOfLines[i].addEventListener('input',function(event)
+//     {
+
+//             if(event.target !== correctWord[i])
+//             {
+//                 decrementHealth(arrayOfLines[i]);
+//             } else
+//             {
+//                 correctGuess(arrayOfLines[i],correctWord[i]);
+//             }
+//         })
+
 
 function decrementHealth(incorrectLine) {
 

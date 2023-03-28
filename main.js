@@ -6,7 +6,7 @@
     The game will track of incorrect guesses and remaining lives of the player.*/
 
 //for later: use a difficulty system, where the difficulty of the words changes depending on the user's difficulty
-const randomWords = ["askew", "buffalo", "crypt", "dwarves", "fixable"];
+const randomWords = ["askew", "buffalo", "crypt", "dwarves", "fixable","kettle"];
 let userHealth = 10;
 const incorrectLetters = "";
 
@@ -14,6 +14,7 @@ const incorrectLetters = "";
 const startBtn = document.querySelector(".start-btn");
 const flexContainer = document.querySelector(".flex-container");
 const instructionsEl = document.querySelector(".instructions");
+const userInput = document.querySelector(".user-input");
 
 
 startBtn.addEventListener('click', function (event) {
@@ -23,18 +24,15 @@ startBtn.addEventListener('click', function (event) {
         instructionsEl.textContent = 'Player turn: enter a letter';
         instructionsEl.setAttribute('class', 'instructions-design');
 
+
         generateBlocks();
     }
 });
 
-//this will generate number of blocks depending on the length of the word
+//generate letter blocks
 function generateBlocks() {
     //generate the letters
     flexContainer.classList.remove("hidden");
-    //flexContainer.classList.add("visible");
-    // for (let i = 0; i < flexContainer.childElementCount; i++) {
-    //     flexContainer.children[i].classList.add("dotted-lines")
-    // }
 
     for(let i = 65; i < 91; i++)
     {
@@ -44,7 +42,9 @@ function generateBlocks() {
         flexContainer.appendChild(letter);
     }
 
-    generateRandomWord();
+    console.log(flexContainer);
+    //TODO: chooseDifficulty() this will be where the user will select difficulty
+    generateRandomWord(); //this will go into the choose difficulty method
 
 }
 
@@ -58,9 +58,56 @@ function generateRandomWord() {
     }
 
     console.log(word);
-
+    guess(word);
 }
 
+let winCount = 0;
+
+function guess(word)
+{
+    const correctWord = word.split("");
+    // let arrayof = [];
+    // arrayof.splice()
+
+    console.log(correctWord);
+
+    flexContainer.addEventListener('click',function(event)
+    {
+        console.log(event.target.innerText);
+        if(correctWord.includes(event.target.innerText.toLowerCase()))
+        {
+            if(event.target.innerText.toLowerCase().length) //check if a letter is in an array more than once before disabling the button
+            event.target.disabled = true;
+
+            winCount += 1;
+            checkIfWon(correctWord);
+            checkIfLose();
+            console.log(`Win: ${winCount}\nLose: ${userHealth}`);
+        } else
+        {
+            userHealth -= 1;
+            console.log(`Win: ${winCount}\nLose: ${userHealth}`);
+        }
+    })
+}
+    // checkIfWon(winCount,correctWord);
+    // checkIfLost(loseCount,correctWord);
+
+function checkIfWon(correctWord)
+{
+    if(winCount === correctWord.length)
+    {
+        console.log("You won!")
+    }
+}
+
+function checkIfLose()
+{
+    if(userHealth == 0)
+    {
+        console.log("You lost")
+    }
+}
 
 
 
