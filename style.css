@@ -22,12 +22,36 @@ body {
     gap: 10px;
 }
 
+.dashes-container {
+    display: flex;
+    position: fixed;
+    margin-bottom: 500px;
+    margin-left: 500px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 500px;
+    height: 10px;
+}
+
+#difficulty-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white; /*TODO make the button colors change depending on the difficulty*/
+}
+
+/* #easy-btn {
+    transition: ;
+} */
+
 .dotted-lines {
     border: 1px solid white;
     background-color: white;
     width: 100px;
     height: 50px;
     gap: 10px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .instructions-design {
@@ -50,6 +74,9 @@ body {
     visibility: hidden;
 }
 
-.visible {
-    visibility: visible;
+.letter-design {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: white;
+    font-size: 20px;
+    position: absolute;
 }
