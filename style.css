@@ -34,3 +34,12 @@ body {
     color: grey;
     margin: 0 0 0 550px;
 }
+
+.submit-button {
+    border: solid 1px black;
+    width: 100px;
+    height: 200px;
+    background-color: white;
+    font-size: 20px;
+    color: black;
+}

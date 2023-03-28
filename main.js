@@ -7,13 +7,14 @@
 
     //for later: use a difficulty system, where the difficulty of the words changes depending on the user's difficulty
     const randomWords = ["askew", "buffalo", "crypt", "dwarves", "fixable"];
-    const userHealth = 10;
+    let userHealth = 10;
     const incorrectLetters = "";
 
     //queryselectors
     const startBtn = document.querySelector(".start-btn");
     const flexContainer = document.querySelector(".flex-container");
     const instructionsEl = document.querySelector(".instructions");
+    const incorrectGuesses = document.querySelector(".incorrect-counter");
 
 
 
@@ -50,37 +51,64 @@
     {
         const arrayOfLines = []; //stores empty boxes, number dependent on how many letters there are in the random word
         const correctWord = word.split(""); //stores the correct word
+        // const form = document.createElement('form');
 
         console.log(correctWord);
 
         for(let i = 0; i < word.length; i++)
         {
-            arrayOfLines.push(document.createElement('input'));
-            arrayOfLines[i].type = 'text';
-            arrayOfLines[i].classList.add('dotted-lines');
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.classList.add('dotted-lines');
+            arrayOfLines.push(input);
+
             flexContainer.appendChild(arrayOfLines[i]);
         }
 
-        console.log(word);
-        decrementHealth(correctWord, arrayOfLines);
+        // form.setAttribute('class','form-list');
+
+        // arrayOfLines.forEach(element =>
+        //     form.appendChild(element));
+
+        decrementHealth(correctWord,arrayOfLines);
 
     }
 
     function decrementHealth(correctWord, arrayOfLines)
     {
-        const input = document.querySelector('dotted-lines');
 
-        input.addEventListener('input', function(event)
+        const submitBtn = document.createElement('button');
+        submitBtn.classList.add('submit-button');
+        submitBtn.textContent = 'submit';
+        flexContainer.appendChild(submitBtn);
+
+        for(let i = 0; i < arrayOfLines.length; i++)
         {
-            for(let i = 0; i < arrayOfLines.length; i++)
+            arrayOfLines[i].addEventListener('input',function(event)
             {
-                if(arrayOfLines[i] === correctWord[i])
+                if(event.target)
                 {
-                    console.log("Correct letter!")
-                }
-            }
+                    flexContainer.addEventListener('click',function(event)
+                    {
+                        if(event.target)
+                        {
+                            if(arrayOfLines[i].value !== correctWord[i])
+                            {
+                                console.log("incorrect word");
+                                submitBtn.style.visibility = 'hidden';
+                                userHealth -= 1;
+                                console.log(userHealth);
+                                incorrectGuesses.innerHTML = arrayOfLines[i].value.charAt(0);
+                                console.log(incorrectGuesses);
+                                console.log("Incorrect guesses: " + incorrectGuesses);
 
-        })
+                            }
+                        }
+                    })
+                }
+
+            })
+        }
 
     }
 
