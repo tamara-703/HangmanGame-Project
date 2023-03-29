@@ -17,11 +17,12 @@ const instructionsEl = document.querySelector(".instructions");
 const userInput = document.querySelector(".user-input");
 const dashesContainer = document.querySelector(".dashes-container");
 const difficulty = document.querySelector("#difficulty-container");
+const trackScore = document.querySelector('#track-score');
 
 
 startBtn.addEventListener('click', function (event) {
     if (event.target) {
-        startBtn.style.visibility = 'hidden'; //replace hidden with collapse
+        startBtn.style.visibility = 'collapse'; //replace hidden with collapse
 
         instructionsEl.textContent = 'Choose your difficulty';
         instructionsEl.setAttribute('class', 'instructions-design');
@@ -87,8 +88,6 @@ function generateBlocks() {
     }
 
     //console.log(flexContainer);
-    //TODO: chooseDifficulty() this will be where the user will select difficulty
-    //generateRandomWord(); //this will go into the choose difficulty method
 
 }
 
@@ -158,17 +157,23 @@ function guess(word) {
                             dashesContainer.children[i].style.color = 'black';
                             dashesContainer.children[i].style.fontSize = '20px';
                             console.log(dashesContainer.children[i]);
+                            //keep track of win count and create a new element to display score to the screen
+                            winCount += 1;
+                            trackScore.classList.add('result-design');
+                            trackScore.textContent = `Correct Guesses: ${winCount}`;
                         }
                     }
 
                 }
+                // const winScore = document.createElement('p');
+                // winScore.textContent = `Correct guesses: ${winCount}`
+                // winScore.setAttribute('class','win-score');
+                // console.log(winScore)
+                // trackScore.appendChild(winScore);
 
-                // for (let i = 0; i < correctWord.length; i++) {
-                //     if (dashesContainer.children[i].innerHTML === correctWord[i]) {
-                //         dashesContainer.children[i].innerHTML = displayLetter.textContent;
-                //     }
-                // }
-                winCount += 1;
+                console.log(trackScore)
+
+
                 checkIfWon(correctWord);
                 checkIfLose();
                 console.log(`Win: ${winCount}\nLose: ${userHealth}`);

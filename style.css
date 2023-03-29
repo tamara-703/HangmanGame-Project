@@ -4,6 +4,11 @@ body {
     width: 100%;
 }
 
+.main {
+    display: flex;
+    align-items: center;
+}
+
 .start-btn {
     display: block;
     margin: 400px 400px 0 45%;
@@ -36,6 +41,7 @@ body {
 
 #difficulty-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: white; /*TODO make the button colors change depending on the difficulty*/
@@ -75,8 +81,24 @@ body {
 }
 
 .letter-design {
-    font-family:fantasy;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: white;
     font-size: 20px;
     position: absolute;
+}
+
+.win-score {
+    font-family: Arial, Helvetica, sans-serif;
+    color: lightgrey;
+    font-size: 10px;
+}
+
+.result-design {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+    background-color: cornsilk;
+    border: 1px dotted whitesmoke;
+    margin-bottom: 800px;
+
 }
