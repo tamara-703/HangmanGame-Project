@@ -17,23 +17,23 @@ const instructionsEl = document.querySelector(".instructions");
 const userInput = document.querySelector(".user-input");
 const dashesContainer = document.querySelector(".dashes-container");
 const difficulty = document.querySelector("#difficulty-container");
-const trackScore = document.querySelector('#track-score');
+const trackScore = document.querySelector('.track-winning-score');
+const letterContainer = document.querySelector('.letter-container');
 
 
 startBtn.addEventListener('click', function (event) {
     if (event.target) {
-        startBtn.style.visibility = 'collapse'; //replace hidden with collapse
+        startBtn.classList.add('hidden');
 
         instructionsEl.textContent = 'Choose your difficulty';
-        instructionsEl.setAttribute('class', 'instructions-design');
 
         chooseDifficulty();
-        //generateBlocks(); //put this inside an addeventlistener in the choosedifficulty method
 
     }
 });
 
 function chooseDifficulty() {
+
     const easyBtn = document.createElement('button');
     const mediumBtn = document.createElement('button');
     const hardBtn = document.createElement('button');
@@ -49,22 +49,25 @@ function chooseDifficulty() {
     difficulty.addEventListener('click', function (event) {
         //depedning on the innertext of the button, generateblocks and randomwords depending on the difficulty array chosen
         if (event.target.innerText === 'EASY') {
-            const randomEasyWords = ["pie", "ankle", "white", "rest", "table", "author", "son"];
-            difficulty.style.visibility = 'hidden';
+            const randomEasyWords = ["pie", "ankle", "white", "rare", "table", "author", "son"];
+            instructionsEl.classList.add('hidden');
+            difficulty.style.display = 'none';
             generateBlocks();
             generateRandomWord(randomEasyWords);
         }
 
         if (event.target.innerText === 'MEDIUM') {
             const randomMediumWords = ['argument', 'beautiful', 'branch', 'detail', 'friend'];
-            difficulty.style.visibility = 'hidden';
+            instructionsEl.classList.add('hidden');
+            difficulty.style.display = 'none';
             generateBlocks();
             generateRandomWord(randomMediumWords);
         }
 
         if (event.target.innerText === 'HARD') {
             const randomHardWords = ["askew", "crypt", "dwarves", "fixable"];
-            difficulty.style.visibility = 'hidden';
+            instructionsEl.classList.add('hidden');
+            difficulty.style.display = 'none';
             generateBlocks();
             generateRandomWord(randomHardWords);
 
@@ -78,13 +81,15 @@ function chooseDifficulty() {
 function generateBlocks() {
     //generate the letters
     flexContainer.classList.remove("hidden");
+    letterContainer.classList.remove("hidden");
 
     //generate letter buttons
     for (let i = 65; i < 91; i++) {
         const letter = document.createElement('button');
         letter.textContent = String.fromCharCode(i);
-        letter.classList.add("dotted-line");
-        flexContainer.appendChild(letter);
+        letter.classList.add("letter-buttons-design");
+        //flexContainer.appendChild(letter);
+        letterContainer.appendChild(letter);
     }
 
     //console.log(flexContainer);
@@ -110,10 +115,6 @@ function generateRandomWord(random) {
         }
     }
 
-    // for (let i = 0; i < randomWords.length; i++) {
-    //     word = randomWords[random];
-    // }
-
     //generate dashes depending on number of random words
     for (let j = 0; j < word.length; j++) {
         const dashes = document.createElement('div');
@@ -137,39 +138,41 @@ function guess(word) {
         //console.log(event.target.innerText);
         if (event.target) {
             if (correctWord.includes(event.target.innerText.toLowerCase())) {
-                //if(event.target.innerText.toLowerCase().length) //check if a letter is in an array more than once before disabling the button
+
+                //check if a letter is in an array more than once before disabling the button
                 event.target.disabled = true;
                 //create a new paragraph element with the text of the correct guessed letter
                 const displayLetter = document.createElement('p');
                 displayLetter.textContent = event.target.innerText;
                 displayLetter.classList.add('letter-design');
                 //TODO add html elements. Trying to see if the letter in the dashes container is equal to the index of the correct word and replacing the inner html
-                console.log(dashesContainer);
+                //console.log(dashesContainer);
 
                 for(let i = 0; i < correctWord.length; i++)
                 {
+                    //TODO check words with duplicate letters
                     if(event.target)
                     {
-                        if(dashesContainer.children[i].innerText === displayLetter.innerText.toLowerCase())
+                        if(correctWord[i] === displayLetter.innerText.toLowerCase())
                         {
-                            dashesContainer.children[i].innerText = displayLetter.innerHTML;
+                            dashesContainer.children[i].innerText = displayLetter.innerText;
                             dashesContainer.children[i].classList.remove('dotted-lines');
-                            dashesContainer.children[i].style.color = 'black';
-                            dashesContainer.children[i].style.fontSize = '20px';
+                            dashesContainer.children[i].classList.add('letter-design');
+                            dashesContainer.children[i].style.color = 'lightPink';
+
                             console.log(dashesContainer.children[i]);
                             //keep track of win count and create a new element to display score to the screen
                             winCount += 1;
-                            trackScore.classList.add('result-design');
                             trackScore.textContent = `Correct Guesses: ${winCount}`;
                         }
                     }
 
                 }
-                // const winScore = document.createElement('p');
-                // winScore.textContent = `Correct guesses: ${winCount}`
-                // winScore.setAttribute('class','win-score');
-                // console.log(winScore)
-                // trackScore.appendChild(winScore);
+                const winScore = document.createElement('p');
+                winScore.textContent = `Correct guesses: ${winCount}`
+                winScore.setAttribute('class','win-score');
+                console.log(winScore)
+                trackScore.appendChild(winScore);
 
                 console.log(trackScore)
 

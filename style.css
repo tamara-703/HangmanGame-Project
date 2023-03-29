@@ -1,4 +1,163 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
 body {
+    /* background-color: #8c52ff; */
+    background-color: lightblue;
+}
+
+.flex-container {
+    font-size: 16px;
+    background-color: #ffffff;
+    width: 90vw;
+    max-width: 34em;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    padding: 3em;
+    border-radius: 0.6em;
+    box-shadow: 0 1.2em 2.4em rgba(111, 85, 0, 0.25);
+}
+
+.start-btn {
+    align-self: center;
+    background-color: #4CAF50;
+    /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+ .instructions {
+    font-size: 80px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: grey;
+    margin: 0 0 0 550px;
+}
+
+.difficulty-container {
+    text-align: center;
+}
+
+.difficulty-container div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 1.2em 0 2.4em 0;
+}
+
+.difficulty-container button {
+    padding: 0.6em 1.2em;
+    border: 3px solid #000000;
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 0.3em;
+    text-transform: capitalize;
+    cursor: pointer;
+}
+
+.difficulty-container button:disabled {
+    border: 3px solid #808080;
+    color: #808080;
+    background-color: #efefef;
+}
+
+.difficulty-container button.active {
+    background-color: #8c52ff;
+    border: 3px solid #000000;
+    color: #fff;
+}
+
+.letter-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6em;
+  }
+  .letter-container button {
+    height: 2.4em;
+    width: 2.4em;
+    border-radius: 0.3em;
+    background-color: #ffffff;
+    cursor: pointer;
+  }
+
+  .dashes-container {
+    display: flex;
+    justify-content: center;
+    font-size: 1.8em;
+    margin: 0.6em 0 1.2em 0;
+    min-height: 200px;
+  }
+
+  .dotted-lines {
+    border: 1px solid white;
+    background-color: black;
+    width: 100px;
+    height: 8px;
+    gap: 10px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+
+  .letter-design {
+    color: lightpink;
+    font-size: 100px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+  }
+
+
+
+
+
+
+
+
+
+   .track-winning-score {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+    background-color: cornsilk;
+    border: 1px dotted whitesmoke;
+    margin-top: 700px;
+    margin-left: 800px;
+
+}
+
+  .hidden {
+    display: none;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* body {
     background-color: lightblue;
     height: 100%;
     width: 100%;
@@ -7,8 +166,8 @@ body {
 .main {
     display: flex;
     align-items: center;
-}
-
+} */
+/*
 .start-btn {
     display: block;
     margin: 400px 400px 0 45%;
@@ -17,88 +176,102 @@ body {
     height: 100px;
     box-shadow: 2rem;
     visibility: visible;
-}
+} */
 
-.flex-container {
+/* .flex-container {
     display: flex;
-    position: absolute;
-    justify-content: center;
+    flex-wrap: wrap;
+    /* position: absolute; */
+/* justify-content: center;
     align-items: center;
     gap: 10px;
-}
+}  */
 
-.dashes-container {
+/* .dashes-container {
     display: flex;
     position: fixed;
     margin-bottom: 500px;
-    margin-left: 500px;
-    justify-content: center;
+    /* margin-left: 500px; */
+/* justify-content: center;
     align-items: center;
     gap: 10px;
-    width: 500px;
-    height: 10px;
-}
+    /* width: 500px;
+    height: 10px; */
+/* } */
 
-#difficulty-container {
+/* #difficulty-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: white; /*TODO make the button colors change depending on the difficulty*/
-}
+    background-color: white;
+
+} */
+
+/* .letter-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #4CAF50;
+    /* Green */
+/* border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+
+} */
 
 /* #easy-btn {
     transition: ;
 } */
 
-.dotted-lines {
+/* .dotted-lines {
     border: 1px solid white;
     background-color: white;
     width: 100px;
     height: 50px;
     gap: 10px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-}
+} */
 
-.instructions-design {
+/* .letter-buttons-design {
+    width: 30px;
+    height: 10px;
+    font-size: large;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+} */
+
+/* .instructions-design {
     font-size: 80px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: grey;
     margin: 0 0 0 550px;
-}
+} */
 
-.submit-button {
+/* .submit-button {
     border: solid 1px black;
     width: 100px;
     height: 200px;
     background-color: white;
     font-size: 20px;
     color: black;
-}
+} */
 
-.hidden {
-    visibility: hidden;
-}
+/* .hidden {
+    display: none;
+} */
 
-.letter-design {
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+/* .letter-design {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: white;
     font-size: 20px;
     position: absolute;
-}
+} */
 
-.win-score {
+/* .win-score {
     font-family: Arial, Helvetica, sans-serif;
     color: lightgrey;
     font-size: 10px;
-}
-
-.result-design {
-    display: inline-block;
-    font-family: Arial, Helvetica, sans-serif;
-    color: black;
-    background-color: cornsilk;
-    border: 1px dotted whitesmoke;
-    margin-bottom: 800px;
-
-}
+} */

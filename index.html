@@ -5,34 +5,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="style2.css"> -->
     <!-- <link rel="google fonts" href="https://fonts.googleapis.com/css?family=" -->
     <script defer src="main.js"></script>
     <title>Hangman</title>
 </head>
 <body>
 
-  <div class="main flex-container">
-    <div class="instructions"></div>
 
-    <button class="start-btn">START GAME</button>
+    <h1 class="instructions"></h1>
 
     <div class="user-input"></div>
-    <div id="difficulty-container"></div>
+
 
     <div class="flex-container">
+      <button class="start-btn">START GAME</button>
+
+      <div id="difficulty-container"></div>
         <div class = "dashes-container"></div>
-        <div id="letter-container" class="letter-container hidden"></div>
+        <div class="letter-container hidden"></div>
         <div id="user-input-section"></div>
         <!-- <canvas id="canvas"></canvas> -->
         <div id="new-game-container" class="new-game-popup hidden">
-          <div id="result-text"></div>
           <button id="new-game-button">New Game</button>
         </div>
       </div>
 
-      <div id="track-score"></div>
+      <div class="lose-count-container"> <!--create an images folder with snipped images of the hanged man-->
 
-    </div>
+      </div>
+
+
+      <h4 class="track-winning-score"></h4>
+
 
 </body>
 </html>
