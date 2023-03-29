@@ -6,8 +6,8 @@
     The game will track of incorrect guesses and remaining lives of the player.*/
 
 //for later: use a difficulty system, where the difficulty of the words changes depending on the user's difficulty
-const randomWords = ["askew", "buffalo", "crypt", "dwarves", "fixable","kettle"];
 let userHealth = 10;
+let winCount = 0;
 const incorrectLetters = "";
 
 //queryselectors
@@ -27,13 +27,12 @@ startBtn.addEventListener('click', function (event) {
         instructionsEl.setAttribute('class', 'instructions-design');
 
         chooseDifficulty();
-        generateBlocks(); //put this inside an addeventlistener in the choosedifficulty method
+        //generateBlocks(); //put this inside an addeventlistener in the choosedifficulty method
 
     }
 });
 
-function chooseDifficulty()
-{
+function chooseDifficulty() {
     const easyBtn = document.createElement('button');
     const mediumBtn = document.createElement('button');
     const hardBtn = document.createElement('button');
@@ -46,9 +45,30 @@ function chooseDifficulty()
     difficulty.appendChild(mediumBtn);
     difficulty.appendChild(hardBtn);
 
-    difficulty.addEventListener('click',function(event)
-    {
+    difficulty.addEventListener('click', function (event) {
         //depedning on the innertext of the button, generateblocks and randomwords depending on the difficulty array chosen
+        if (event.target.innerText === 'EASY') {
+            const randomEasyWords = ["pie", "ankle", "white", "rest", "table", "author", "son"];
+            difficulty.style.visibility = 'hidden';
+            generateBlocks();
+            generateRandomWord(randomEasyWords);
+        }
+
+        if (event.target.innerText === 'MEDIUM') {
+            const randomMediumWords = ['argument', 'beautiful', 'branch', 'detail', 'friend'];
+            difficulty.style.visibility = 'hidden';
+            generateBlocks();
+            generateRandomWord(randomMediumWords);
+        }
+
+        if (event.target.innerText === 'HARD') {
+            const randomHardWords = ["askew", "crypt", "dwarves", "fixable"];
+            difficulty.style.visibility = 'hidden';
+            generateBlocks();
+            generateRandomWord(randomHardWords);
+
+        }
+
     })
 
 
@@ -61,8 +81,7 @@ function generateBlocks() {
     flexContainer.classList.remove("hidden");
 
     //generate letter buttons
-    for(let i = 65; i < 91; i++)
-    {
+    for (let i = 65; i < 91; i++) {
         const letter = document.createElement('button');
         letter.textContent = String.fromCharCode(i);
         letter.classList.add("dotted-line");
@@ -71,24 +90,37 @@ function generateBlocks() {
 
     console.log(flexContainer);
     //TODO: chooseDifficulty() this will be where the user will select difficulty
-    generateRandomWord(); //this will go into the choose difficulty method
+    //generateRandomWord(); //this will go into the choose difficulty method
 
 }
 
 //this will generate a random word from the array on click
-function generateRandomWord() {
-    let random = Math.floor(Math.random() * randomWords.length);
+function generateRandomWord(random) {
+    let randomWord = Math.floor(Math.random() * random.length);
     let word = "";
-
-    for (let i = 0; i < randomWords.length; i++) {
-        word = randomWords[random];
+    console.log(random)
+    if (random.length === 7) {
+        for (let i = 0; i < random.length; i++) {
+            word = random[randomWord];
+        }
+    } else if (random.length === 5) {
+        for (let i = 0; i < random.length; i++) {
+            word = random[randomWord];
+        }
+    } else if (random.length === 4) {
+        for (let i = 0; i < random.length; i++) {
+            word = random[randomWord];
+        }
     }
 
-    console.log(word.length);
+    // for (let i = 0; i < randomWords.length; i++) {
+    //     word = randomWords[random];
+    // }
+
+    console.log(word)
 
     //generate dashes depending on number of random words
-    for(let j = 0; j < word.length; j++)
-    {
+    for (let j = 0; j < word.length; j++) {
         const dashes = document.createElement('div');
         dashes.classList.add('dotted-lines');
         dashesContainer.appendChild(dashes);
@@ -101,59 +133,51 @@ function generateRandomWord() {
     guess(word);
 }
 
-let winCount = 0;
-
-function guess(word)
-{
+function guess(word) {
     const correctWord = word.split("");
 
     console.log(correctWord);
 
-    flexContainer.addEventListener('click',function(event)
-    {
+    flexContainer.addEventListener('click', function (event) {
         console.log(event.target.innerText);
-        if(correctWord.includes(event.target.innerText.toLowerCase()))
-        {
-            //if(event.target.innerText.toLowerCase().length) //check if a letter is in an array more than once before disabling the button
-            event.target.disabled = true;
-            const displayLetter = document.createElement('p');
-            displayLetter.textContent = event.target.innerText;
-            displayLetter.classList.add('letter-design');
-            //TODO add html elements. Trying to see if the letter in the dashes container is equal to the index of the correct word and replacing the inner html
-            for(let i = 0; i < correctWord.length; i++)
-            {
-                if(dashesContainer.children[i].innerHTML === correctWord[i])
-                {
-                    dashesContainer.children[i].innerHTML = displayLetter.textContent;
+        if (event.target) {
+            if (correctWord.includes(event.target.innerText.toLowerCase())) {
+                //if(event.target.innerText.toLowerCase().length) //check if a letter is in an array more than once before disabling the button
+                event.target.disabled = true;
+                const displayLetter = document.createElement('p');
+                displayLetter.textContent = event.target.innerText;
+                displayLetter.classList.add('letter-design');
+                //TODO add html elements. Trying to see if the letter in the dashes container is equal to the index of the correct word and replacing the inner html
+                for (let i = 0; i < correctWord.length; i++) {
+                    if (dashesContainer.children[i].innerHTML === correctWord[i]) {
+                        dashesContainer.children[i].innerHTML = displayLetter.textContent;
+                    }
                 }
+                winCount += 1;
+                checkIfWon(correctWord);
+                checkIfLose();
+                console.log(`Win: ${winCount}\nLose: ${userHealth}`);
+            } else {
+                userHealth -= 1;
+                console.log(`Win: ${winCount}\nLose: ${userHealth}`);
             }
-            winCount += 1;
-            checkIfWon(correctWord);
-            checkIfLose();
-            console.log(`Win: ${winCount}\nLose: ${userHealth}`);
-        } else
-        {
-            userHealth -= 1;
-            console.log(`Win: ${winCount}\nLose: ${userHealth}`);
+
         }
+
     })
 }
-    // checkIfWon(winCount,correctWord);
-    // checkIfLost(loseCount,correctWord);
+// checkIfWon(winCount,correctWord);
+// checkIfLost(loseCount,correctWord);
 
-function checkIfWon(correctWord)
-{
-    if(winCount === correctWord.length)
-    {
+function checkIfWon(correctWord) {
+    if (winCount === correctWord.length) {
         //TODO add html elements
         console.log("You won!")
     }
 }
 
-function checkIfLose()
-{
-    if(userHealth == 0)
-    {
+function checkIfLose() {
+    if (userHealth == 0) {
         //TODO add html elements
         console.log("You lost")
     }
