@@ -21,7 +21,7 @@ const difficulty = document.querySelector("#difficulty-container");
 
 startBtn.addEventListener('click', function (event) {
     if (event.target) {
-        startBtn.style.visibility = 'hidden';
+        startBtn.style.visibility = 'hidden'; //replace hidden with collapse
 
         instructionsEl.textContent = 'Choose your difficulty';
         instructionsEl.setAttribute('class', 'instructions-design');
@@ -71,8 +71,6 @@ function chooseDifficulty() {
 
     })
 
-
-
 }
 
 //generate letter blocks
@@ -88,7 +86,7 @@ function generateBlocks() {
         flexContainer.appendChild(letter);
     }
 
-    console.log(flexContainer);
+    //console.log(flexContainer);
     //TODO: chooseDifficulty() this will be where the user will select difficulty
     //generateRandomWord(); //this will go into the choose difficulty method
 
@@ -117,8 +115,6 @@ function generateRandomWord(random) {
     //     word = randomWords[random];
     // }
 
-    console.log(word)
-
     //generate dashes depending on number of random words
     for (let j = 0; j < word.length; j++) {
         const dashes = document.createElement('div');
@@ -128,8 +124,8 @@ function generateRandomWord(random) {
         dashesContainer.children[j].style.color = 'white';
     }
 
-    console.log(word);
-    console.log(dashesContainer)
+    //console.log(word);
+    //console.log(dashesContainer)
     guess(word);
 }
 
@@ -139,20 +135,39 @@ function guess(word) {
     console.log(correctWord);
 
     flexContainer.addEventListener('click', function (event) {
-        console.log(event.target.innerText);
+        //console.log(event.target.innerText);
         if (event.target) {
             if (correctWord.includes(event.target.innerText.toLowerCase())) {
                 //if(event.target.innerText.toLowerCase().length) //check if a letter is in an array more than once before disabling the button
                 event.target.disabled = true;
+                //create a new paragraph element with the text of the correct guessed letter
                 const displayLetter = document.createElement('p');
                 displayLetter.textContent = event.target.innerText;
                 displayLetter.classList.add('letter-design');
                 //TODO add html elements. Trying to see if the letter in the dashes container is equal to the index of the correct word and replacing the inner html
-                for (let i = 0; i < correctWord.length; i++) {
-                    if (dashesContainer.children[i].innerHTML === correctWord[i]) {
-                        dashesContainer.children[i].innerHTML = displayLetter.textContent;
+                console.log(dashesContainer);
+
+                for(let i = 0; i < correctWord.length; i++)
+                {
+                    if(event.target)
+                    {
+                        if(dashesContainer.children[i].innerText === displayLetter.innerText.toLowerCase())
+                        {
+                            dashesContainer.children[i].innerText = displayLetter.innerHTML;
+                            dashesContainer.children[i].classList.remove('dotted-lines');
+                            dashesContainer.children[i].style.color = 'black';
+                            dashesContainer.children[i].style.fontSize = '20px';
+                            console.log(dashesContainer.children[i]);
+                        }
                     }
+
                 }
+
+                // for (let i = 0; i < correctWord.length; i++) {
+                //     if (dashesContainer.children[i].innerHTML === correctWord[i]) {
+                //         dashesContainer.children[i].innerHTML = displayLetter.textContent;
+                //     }
+                // }
                 winCount += 1;
                 checkIfWon(correctWord);
                 checkIfLose();
