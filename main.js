@@ -51,6 +51,8 @@ function chooseDifficulty() {
     mediumBtn.innerText = 'MEDIUM';
     hardBtn.innerHTML = 'HARD';
 
+    //TODO change the color of the buttons depending on difficulty. green for easy, yellow for medium and red for hard
+
     difficulty.appendChild(easyBtn);
     difficulty.appendChild(mediumBtn);
     difficulty.appendChild(hardBtn);
@@ -113,6 +115,7 @@ function generateBlocks() {
 
 //this will generate a random word from the array on click
 function generateRandomWord(random) {
+    //TODO change the random words
     let randomWord = Math.floor(Math.random() * random.length);
     let word = "";
     console.log(random)
@@ -143,6 +146,8 @@ function generateRandomWord(random) {
     //console.log(dashesContainer)
     guess(word);
 }
+
+//TODO (potential if i have time) give the use the choice to request a hint after 4 failed tries. The hint should populate a random letter from the correct word
 
 function guess(word) {
     const correctWord = word.split("");
@@ -195,6 +200,7 @@ function guess(word) {
 
         if (found == false) {
             userHealth -= 1;
+            event.target.disabled = true;
             console.log(userHealth);
             drawCanvas(userHealth);
 
@@ -207,11 +213,9 @@ function guess(word) {
 
 function checkIfWon(correctWord) {
     if (winCount === correctWord.length) {
-        //TODO add html elements
         const userWon = document.createElement('h1');
         userWon.textContent = 'YOU WON!';
-        // userWon.classList.add('won-message-container');
-        //append the element to the won message div
+
         wonMessage.classList.remove('hidden');
         wonMessage.appendChild(userWon);
         //settimeout for the wonMessage
@@ -226,16 +230,15 @@ const drawLine = (fromX, fromY, toX, toY) => {
     ctx.stroke();
 };
 
-function initialCanvas ()
-{
-     //bottom line
-     drawLine(10, 130, 130, 130);
-     //left line
-     drawLine(10, 10, 10, 131);
-     //top line
-     drawLine(10, 10, 70, 10);
-     //small top line
-     drawLine(70, 10, 70, 20);
+function initialCanvas() {
+    //bottom line
+    drawLine(10, 130, 250, 130);
+    //left line
+    drawLine(10, 10, 10, 131);
+    //top line
+    drawLine(10, 10, 200, 10);
+    //noose line
+    drawLine(70, 10, 70, 40);
 }
 
 function drawCanvas(userHealth) {
@@ -248,47 +251,54 @@ function drawCanvas(userHealth) {
         //draw head
         case 9:
             ctx.beginPath();
-            ctx.arc(70, 30, 10, 0, Math.PI * 2, true);
+            ctx.arc(70, 50, 10, 0, Math.PI * 2, true);
             ctx.stroke();
             break;
         //draw body
         case 8:
-            drawLine(70, 40, 70, 80);
+            drawLine(70, 60, 70, 100);
             break;
         //left arm
         case 7:
-            drawLine(70, 50, 50, 70);
+            //drawLine(70, 50, 50, 70);
+            drawLine(70, 80, 50, 70);
             break;
         //right arm
         case 6:
-            drawLine(70, 50, 90, 70);
+            //drawLine(70, 50, 90, 70);
+            drawLine(70, 80, 90, 70);
             break;
         //left leg
         case 5:
+            //drawLine(70, 80, 50, 110);
             drawLine(70, 80, 50, 110);
             break;
         //right leg
         case 4:
             drawLine(70, 80, 90, 110);
             break;
-
+        //left eye
+        case 3:
+            //ctx.arc(60, 65, 5, 0, Math.PI * 2, true); // Left eye
+            ctx.arc(65, 50, 2, 0, Math.PI * 2, true);
+            //ctx.moveTo(95, 65);
+            ctx.stroke();
+            break;
+        //right eye
+        case 2:
+            //ctx.arc(90, 65, 5, 0, Math.PI * 2, true); // Right eye
+            ctx.arc(75, 50, 2, 0, Math.PI * 2, true);
+            ctx.stroke();
+            break;
+        //sad mouth
+        case 1:
+            ctx.arc(75, 75, 35, 0, Math.PI, false); //this is clockwise, change it to anti-clockwise
+            ctx.stroke();
+            userHealth -= 1;
+            break;
 
 
     }
-
-    // switch (userHealth) {
-    //     case 9:
-    //         ctx.beginPath();
-    //         ctx.arc(95, 50, 40, 0, 2 * Math.PI);
-    //         ctx.stroke();
-    //         break;
-    //     case 8:
-    //         ctx.beginPath();
-    //         ctx.moveTo(100, 100);
-    //         ctx.lineTo(300, 100);
-    //         ctx.stroke();
-
-    // }
 
 }
 
