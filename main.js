@@ -21,7 +21,7 @@ const trackScore = document.querySelector('.track-winning-score');
 const letterContainer = document.querySelector('.letter-container');
 const wonMessage = document.querySelector('.won-message-container');
 const userEndChoice = document.querySelector('.new-game-popup');
-const loseCountCanvas = document.querySelector('.lose-count-canvas');
+const loseCanvas = document.querySelector('.lose-count-canvas');
 
 
 startBtn.addEventListener('click', function (event) {
@@ -56,7 +56,7 @@ function chooseDifficulty() {
         //depedning on the innertext of the button, generateblocks and randomwords depending on the difficulty array chosen
         if (event.target.innerText === 'EASY') {
             const randomEasyWords = ["apple", "fireworks", "white", "less", "table", "author", "son"];
-            loseCountCanvas.classList.remove('hidden');
+            loseCanvas.classList.remove('hidden');
             instructionsEl.classList.add('hidden');
             difficulty.style.display = 'none';
             generateBlocks();
@@ -65,7 +65,7 @@ function chooseDifficulty() {
 
         if (event.target.innerText === 'MEDIUM') {
             const randomMediumWords = ['argument', 'beautiful', 'branch', 'detail', 'friend'];
-            loseCountCanvas.classList.remove('hidden');
+            loseCanvas.classList.remove('hidden');
             instructionsEl.classList.add('hidden');
             difficulty.style.display = 'none';
             generateBlocks();
@@ -74,7 +74,7 @@ function chooseDifficulty() {
 
         if (event.target.innerText === 'HARD') {
             const randomHardWords = ["askew", "crypt", "dwarves", "fixable"];
-            loseCountCanvas.classList.remove('hidden');
+            loseCanvas.classList.remove('hidden');
             instructionsEl.classList.add('hidden');
             difficulty.style.display = 'none';
             generateBlocks();
@@ -158,13 +158,10 @@ function guess(word) {
                 //TODO add html elements. Trying to see if the letter in the dashes container is equal to the index of the correct word and replacing the inner html
                 //console.log(dashesContainer);
 
-                for(let i = 0; i < correctWord.length; i++)
-                {
+                for (let i = 0; i < correctWord.length; i++) {
                     //TODO check words with duplicate letters
-                    if(event.target)
-                    {
-                        if(correctWord[i] === displayLetter.innerText.toLowerCase())
-                        {
+
+                        if (correctWord[i] === displayLetter.innerText.toLowerCase()) {
                             dashesContainer.children[i].innerText = displayLetter.innerText;
                             dashesContainer.children[i].classList.remove('dotted-lines');
                             dashesContainer.children[i].classList.add('letter-design');
@@ -174,35 +171,29 @@ function guess(word) {
                             //keep track of win count and create a new element to display score to the screen
                             winCount += 1;
                             const winScore = document.createElement('p');
-                            winScore.setAttribute('class','win-score');
+                            winScore.setAttribute('class', 'win-score');
                             console.log(winScore);
                             trackScore.appendChild(winScore);
 
                             letterCount.push(dashesContainer.children[i].innerText)
                             trackScore.textContent = `Correct Guesses: ${winCount}\nCorrect letters: ${letterCount}`;
                             console.log(letterCount);
-                        }
                     }
-
                 }
 
                 event.target.disabled = true;
                 console.log(trackScore);
 
                 checkIfWon(correctWord);
-                checkIfLose();
-                console.log(`Win: ${winCount}\nLose: ${userHealth}`);
-            } else {
-                userHealth -= 1;
                 console.log(`Win: ${winCount}\nLose: ${userHealth}`);
             }
+
+
 
         }
 
     })
 }
-// checkIfWon(winCount,correctWord);
-// checkIfLost(loseCount,correctWord);
 
 function checkIfWon(correctWord) {
     if (winCount === correctWord.length) {
@@ -222,20 +213,37 @@ function checkIfWon(correctWord) {
 }
 
 function checkIfLose() {
-    if (userHealth == 0) {
-        //TODO add html elements
-        console.log("You lost")
+    if(userHealth >= 10)
+    {
+        userHealth -= 1;
+        drawCanvas(userHealth);
+        console.log(`Win: ${winCount}\nLose: ${userHealth}`);
+    } else
+    {
+        console.log("You lost.")
     }
+
 }
 
-function hideMessage()
-{
+function drawCanvas(userHealth) {
+    switch (userHealth) {
+        case 9:
+            let ctx = loseCanvas.getContext("2d");
+            ctx.beginPath();
+            ctx.arc(95, 50, 40, 0, 2 * Math.PI);
+            ctx.stroke();
+            break;
+
+    }
+
+}
+
+function hideMessage() {
     wonMessage.classList.add('hidden');
     resetGame();
 }
 
-function resetGame()
-{
+function resetGame() {
     const newGameOption = document.createElement('button');
     newGameOption.textContent = 'NEW GAME';
     newGameOption.classList.add('start-btn');
@@ -244,10 +252,8 @@ function resetGame()
 
     userEndChoice.classList.remove('hidden');
 
-    userEndChoice.addEventListener('click',function(event)
-    {
-        if(event.target)
-        {
+    userEndChoice.addEventListener('click', function (event) {
+        if (event.target) {
             location.reload();
         }
 
@@ -263,12 +269,4 @@ function decrementHealth(incorrectLine) {
     incorrectGuesses.innerHTML = incorrectLine.value.charAt(0);
     console.log(incorrectGuesses);
     console.log("Incorrect guesses: " + incorrectGuesses);
-}
-
-
-
-
-function correctGuess(correctLine, correctWord) {
-    console.log(`Your guess ${correctLine.value} matches ${correctWord.value}`);
-
 }
