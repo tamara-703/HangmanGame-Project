@@ -167,8 +167,8 @@ body {
 
 canvas{
     display: block;
-    width: "200px";
-    height:"800px";
+    width: 350px;
+    height:600px;
     margin: 0;
     border: 10px solid whitesmoke;
     border-radius: 10px;

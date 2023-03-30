@@ -6,9 +6,6 @@
     The game will track of incorrect guesses and remaining lives of the player.*/
 
 //for later: use a difficulty system, where the difficulty of the words changes depending on the user's difficulty
-let userHealth = 10;
-let winCount = 0;
-const incorrectLetters = "";
 
 //queryselectors
 const startBtn = document.querySelector(".start-btn");
@@ -22,6 +19,12 @@ const letterContainer = document.querySelector('.letter-container');
 const wonMessage = document.querySelector('.won-message-container');
 const userEndChoice = document.querySelector('.new-game-popup');
 const loseCanvas = document.querySelector('.lose-count-canvas');
+
+//global variables
+let userHealth = 10;
+let winCount = 0;
+const incorrectLetters = "";
+let ctx = loseCanvas.getContext("2d");
 
 
 startBtn.addEventListener('click', function (event) {
@@ -57,6 +60,7 @@ function chooseDifficulty() {
         if (event.target.innerText === 'EASY') {
             const randomEasyWords = ["apple", "fireworks", "white", "less", "table", "author", "son"];
             loseCanvas.classList.remove('hidden');
+            initialCanvas();
             instructionsEl.classList.add('hidden');
             difficulty.style.display = 'none';
             generateBlocks();
@@ -66,6 +70,7 @@ function chooseDifficulty() {
         if (event.target.innerText === 'MEDIUM') {
             const randomMediumWords = ['argument', 'beautiful', 'branch', 'detail', 'friend'];
             loseCanvas.classList.remove('hidden');
+            initialCanvas();
             instructionsEl.classList.add('hidden');
             difficulty.style.display = 'none';
             generateBlocks();
@@ -75,6 +80,7 @@ function chooseDifficulty() {
         if (event.target.innerText === 'HARD') {
             const randomHardWords = ["askew", "crypt", "dwarves", "fixable"];
             loseCanvas.classList.remove('hidden');
+            initialCanvas();
             instructionsEl.classList.add('hidden');
             difficulty.style.display = 'none';
             generateBlocks();
@@ -213,14 +219,62 @@ function checkIfWon(correctWord) {
     }
 }
 
+//create a method that will be used once we draw each of the hangman's lines
+const drawLine = (fromX, fromY, toX, toY) => {
+    ctx.moveTo(fromX, fromY);
+    ctx.lineTo(toX, toY);
+    ctx.stroke();
+};
+
+function initialCanvas ()
+{
+     //bottom line
+     drawLine(10, 130, 130, 130);
+     //left line
+     drawLine(10, 10, 10, 131);
+     //top line
+     drawLine(10, 10, 70, 10);
+     //small top line
+     drawLine(70, 10, 70, 20);
+}
+
 function drawCanvas(userHealth) {
-    let ctx = loseCanvas.getContext("2d");
 
-    context.beginPath();
-    context.strokeStyle = "#000";
-    context.lineWidth = 2;
+    ctx.beginPath();
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 2;
 
-    
+    switch (userHealth) {
+        //draw head
+        case 9:
+            ctx.beginPath();
+            ctx.arc(70, 30, 10, 0, Math.PI * 2, true);
+            ctx.stroke();
+            break;
+        //draw body
+        case 8:
+            drawLine(70, 40, 70, 80);
+            break;
+        //left arm
+        case 7:
+            drawLine(70, 50, 50, 70);
+            break;
+        //right arm
+        case 6:
+            drawLine(70, 50, 90, 70);
+            break;
+        //left leg
+        case 5:
+            drawLine(70, 80, 50, 110);
+            break;
+        //right leg
+        case 4:
+            drawLine(70, 80, 90, 110);
+            break;
+
+
+
+    }
 
     // switch (userHealth) {
     //     case 9:
