@@ -144,53 +144,57 @@ function guess(word) {
 
     console.log(correctWord);
 
-    flexContainer.addEventListener('click', function (event) {
+    letterContainer.addEventListener('click', function (event) {
         //console.log(event.target.innerText);
-        if (event.target) {
-            if (correctWord.includes(event.target.innerText.toLowerCase())) {
+        //if (correctWord.includes(event.target.innerText.toLowerCase()))
 
-                //check if a letter is in an array more than once before disabling the button
+        const displayLetter = document.createElement('p');
+        displayLetter.textContent = event.target.innerText;
+        displayLetter.classList.add('letter-design');
 
-                //create a new paragraph element with the text of the correct guessed letter
-                const displayLetter = document.createElement('p');
-                displayLetter.textContent = event.target.innerText;
-                displayLetter.classList.add('letter-design');
-                //TODO add html elements. Trying to see if the letter in the dashes container is equal to the index of the correct word and replacing the inner html
-                //console.log(dashesContainer);
+        //create a new paragraph element with the text of the correct guessed letter
 
-                for (let i = 0; i < correctWord.length; i++) {
-                    //TODO check words with duplicate letters
+        let found = false;
 
-                        if (correctWord[i] === displayLetter.innerText.toLowerCase()) {
-                            dashesContainer.children[i].innerText = displayLetter.innerText;
-                            dashesContainer.children[i].classList.remove('dotted-lines');
-                            dashesContainer.children[i].classList.add('letter-design');
-                            dashesContainer.children[i].style.color = 'lightPink';
+        for (let i = 0; i < correctWord.length; i++) {
 
-                            console.log(dashesContainer.children[i]);
-                            //keep track of win count and create a new element to display score to the screen
-                            winCount += 1;
-                            const winScore = document.createElement('p');
-                            winScore.setAttribute('class', 'win-score');
-                            console.log(winScore);
-                            trackScore.appendChild(winScore);
+            // if(event.target.innerText.toLowerCase() === correctWord[i])
+            // {
+            if (correctWord[i] === displayLetter.innerText.toLowerCase()) {
 
-                            letterCount.push(dashesContainer.children[i].innerText)
-                            trackScore.textContent = `Correct Guesses: ${winCount}\nCorrect letters: ${letterCount}`;
-                            console.log(letterCount);
-                    }
-                }
+                found = true;
 
+                dashesContainer.children[i].innerText = displayLetter.innerText;
+                dashesContainer.children[i].classList.remove('dotted-lines');
+                dashesContainer.children[i].classList.add('letter-design');
+                dashesContainer.children[i].style.color = 'lightPink';
+
+                //console.log(dashesContainer.children[i]);
+                //keep track of win count and create a new element to display score to the screen
+                winCount += 1;
+                const winScore = document.createElement('p');
+                winScore.setAttribute('class', 'win-score');
+                //console.log(winScore);
+                trackScore.appendChild(winScore);
+
+                letterCount.push(dashesContainer.children[i].innerText);
+                trackScore.textContent = `Correct Guesses: ${winCount}\nCorrect letters: ${letterCount}`;
+                //console.log(letterCount);
                 event.target.disabled = true;
-                console.log(trackScore);
-
-                checkIfWon(correctWord);
-                console.log(`Win: ${winCount}\nLose: ${userHealth}`);
             }
 
+        }
 
+        checkIfWon(correctWord);
+
+        if (found == false) {
+            userHealth -= 1;
+            console.log(userHealth);
+            drawCanvas(userHealth);
 
         }
+
+        console.log(`Win: ${winCount}\nLose: ${userHealth}`);
 
     })
 }
@@ -206,34 +210,41 @@ function checkIfWon(correctWord) {
         wonMessage.appendChild(userWon);
         //settimeout for the wonMessage
         setTimeout(hideMessage, 5000);
-
-
-        console.log("You won!");
     }
-}
-
-function checkIfLose() {
-    if(userHealth >= 10)
-    {
-        userHealth -= 1;
-        drawCanvas(userHealth);
-        console.log(`Win: ${winCount}\nLose: ${userHealth}`);
-    } else
-    {
-        console.log("You lost.")
-    }
-
 }
 
 function drawCanvas(userHealth) {
-    switch (userHealth) {
-        case 9:
-            let ctx = loseCanvas.getContext("2d");
-            ctx.beginPath();
-            ctx.arc(95, 50, 40, 0, 2 * Math.PI);
-            ctx.stroke();
-            break;
+    let ctx = loseCanvas.getContext("2d");
 
+    context.beginPath();
+    context.strokeStyle = "#000";
+    context.lineWidth = 2;
+
+    
+
+    // switch (userHealth) {
+    //     case 9:
+    //         ctx.beginPath();
+    //         ctx.arc(95, 50, 40, 0, 2 * Math.PI);
+    //         ctx.stroke();
+    //         break;
+    //     case 8:
+    //         ctx.beginPath();
+    //         ctx.moveTo(100, 100);
+    //         ctx.lineTo(300, 100);
+    //         ctx.stroke();
+
+    // }
+
+}
+
+function checkIfLose(userHealth) {
+    if (userHealth >= 10) {
+        userHealth -= 1;
+        drawCanvas(userHealth);
+        console.log(`Win: ${winCount}\nLose: ${userHealth}`);
+    } else {
+        console.log("You lost.")
     }
 
 }
@@ -258,15 +269,4 @@ function resetGame() {
         }
 
     })
-}
-
-function decrementHealth(incorrectLine) {
-
-
-    console.log("incorrect letter " + incorrectLine.value);
-    userHealth -= 1;
-    console.log(userHealth);
-    incorrectGuesses.innerHTML = incorrectLine.value.charAt(0);
-    console.log(incorrectGuesses);
-    console.log("Incorrect guesses: " + incorrectGuesses);
 }
