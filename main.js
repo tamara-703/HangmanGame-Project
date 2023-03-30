@@ -19,13 +19,14 @@ const dashesContainer = document.querySelector(".dashes-container");
 const difficulty = document.querySelector("#difficulty-container");
 const trackScore = document.querySelector('.track-winning-score');
 const letterContainer = document.querySelector('.letter-container');
+const wonMessage = document.querySelector('.won-message-container');
+const userEndChoice = document.querySelector('.new-game-popup');
+const loseCountCanvas = document.querySelector('.lose-count-canvas');
 
 
 startBtn.addEventListener('click', function (event) {
     if (event.target) {
         startBtn.classList.add('hidden');
-
-        instructionsEl.textContent = 'Choose your difficulty';
 
         chooseDifficulty();
 
@@ -33,6 +34,9 @@ startBtn.addEventListener('click', function (event) {
 });
 
 function chooseDifficulty() {
+
+    instructionsEl.classList.remove('hidden');
+    instructionsEl.textContent = 'Choose your difficulty';
 
     const easyBtn = document.createElement('button');
     const mediumBtn = document.createElement('button');
@@ -49,7 +53,8 @@ function chooseDifficulty() {
     difficulty.addEventListener('click', function (event) {
         //depedning on the innertext of the button, generateblocks and randomwords depending on the difficulty array chosen
         if (event.target.innerText === 'EASY') {
-            const randomEasyWords = ["pie", "ankle", "white", "rare", "table", "author", "son"];
+            const randomEasyWords = ["apple", "fireworks", "white", "less", "table", "author", "son"];
+            loseCountCanvas.classList.remove('hidden');
             instructionsEl.classList.add('hidden');
             difficulty.style.display = 'none';
             generateBlocks();
@@ -58,6 +63,7 @@ function chooseDifficulty() {
 
         if (event.target.innerText === 'MEDIUM') {
             const randomMediumWords = ['argument', 'beautiful', 'branch', 'detail', 'friend'];
+            loseCountCanvas.classList.remove('hidden');
             instructionsEl.classList.add('hidden');
             difficulty.style.display = 'none';
             generateBlocks();
@@ -66,6 +72,7 @@ function chooseDifficulty() {
 
         if (event.target.innerText === 'HARD') {
             const randomHardWords = ["askew", "crypt", "dwarves", "fixable"];
+            loseCountCanvas.classList.remove('hidden');
             instructionsEl.classList.add('hidden');
             difficulty.style.display = 'none';
             generateBlocks();
@@ -131,6 +138,7 @@ function generateRandomWord(random) {
 
 function guess(word) {
     const correctWord = word.split("");
+    let letterCount = [];
 
     console.log(correctWord);
 
@@ -140,7 +148,7 @@ function guess(word) {
             if (correctWord.includes(event.target.innerText.toLowerCase())) {
 
                 //check if a letter is in an array more than once before disabling the button
-                event.target.disabled = true;
+
                 //create a new paragraph element with the text of the correct guessed letter
                 const displayLetter = document.createElement('p');
                 displayLetter.textContent = event.target.innerText;
@@ -163,19 +171,21 @@ function guess(word) {
                             console.log(dashesContainer.children[i]);
                             //keep track of win count and create a new element to display score to the screen
                             winCount += 1;
-                            trackScore.textContent = `Correct Guesses: ${winCount}`;
+                            const winScore = document.createElement('p');
+                            winScore.setAttribute('class','win-score');
+                            console.log(winScore);
+                            trackScore.appendChild(winScore);
+
+                            letterCount.push(dashesContainer.children[i].innerText)
+                            trackScore.textContent = `Correct Guesses: ${winCount}\nCorrect letters: ${letterCount}`;
+                            console.log(letterCount);
                         }
                     }
 
                 }
-                const winScore = document.createElement('p');
-                winScore.textContent = `Correct guesses: ${winCount}`
-                winScore.setAttribute('class','win-score');
-                console.log(winScore)
-                trackScore.appendChild(winScore);
 
+                event.target.disabled = true;
                 console.log(trackScore)
-
 
                 checkIfWon(correctWord);
                 checkIfLose();
@@ -195,6 +205,33 @@ function guess(word) {
 function checkIfWon(correctWord) {
     if (winCount === correctWord.length) {
         //TODO add html elements
+        const userWon = document.createElement('h1');
+        userWon.textContent = 'YOU WON!';
+        // userWon.classList.add('won-message-container');
+        //append the element to the won message div
+        wonMessage.classList.remove('hidden');
+        wonMessage.appendChild(userWon);
+        //settimeout for the wonMessage
+
+
+        const newGameOption = document.createElement('button');
+        newGameOption.textContent = 'NEW GAME'
+        const resetOption = document.createElement('button');
+        resetOption.textContent = 'RESET GAME'
+        userEndChoice.appendChild(newGameOption);
+        userEndChoice.appendChild(resetOption);
+
+        userEndChoice.addEventListener('click',function(event)
+        {
+            if(event.target.innerText === 'NEW GAME')
+            {
+                chooseDifficulty();
+            } else
+            {
+                location.reload();
+            }
+
+        })
         console.log("You won!")
     }
 }

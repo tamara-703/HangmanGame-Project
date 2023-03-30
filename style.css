@@ -3,11 +3,17 @@
     margin: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
+
 }
 
 body {
     /* background-color: #8c52ff; */
     background-color: lightblue;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+
 }
 
 .flex-container {
@@ -116,22 +122,43 @@ body {
   }
 
 
-
-
-
-
-
-
-
    .track-winning-score {
     display: inline-block;
     font-family: Arial, Helvetica, sans-serif;
     color: black;
     background-color: cornsilk;
     border: 1px dotted whitesmoke;
-    margin-top: 700px;
-    margin-left: 800px;
+    margin-top: 600px;
+    margin-left: 500px;
 
+}
+
+.won-message-container {
+    display: flex;
+    position: absolute;
+    z-index: 5;
+    width: 100vw;
+    height: 100vh;
+    border: 10px dotted lightpink;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+
+}
+
+.won-message-container h1 {
+    background-color: lightgrey;
+}
+
+canvas{
+    display: block;
+    width: "200px";
+    height:"800px";
+    margin: 0;
+    border: 10px solid whitesmoke;
+    border-radius: 10px;
 }
 
   .hidden {
