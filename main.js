@@ -36,6 +36,8 @@ startBtn.addEventListener('click', function (event) {
 function chooseDifficulty() {
 
     instructionsEl.classList.remove('hidden');
+    userEndChoice.classList.add('hidden');
+
     instructionsEl.textContent = 'Choose your difficulty';
 
     const easyBtn = document.createElement('button');
@@ -185,7 +187,7 @@ function guess(word) {
                 }
 
                 event.target.disabled = true;
-                console.log(trackScore)
+                console.log(trackScore);
 
                 checkIfWon(correctWord);
                 checkIfLose();
@@ -212,27 +214,10 @@ function checkIfWon(correctWord) {
         wonMessage.classList.remove('hidden');
         wonMessage.appendChild(userWon);
         //settimeout for the wonMessage
+        setTimeout(hideMessage, 5000);
 
 
-        const newGameOption = document.createElement('button');
-        newGameOption.textContent = 'NEW GAME'
-        const resetOption = document.createElement('button');
-        resetOption.textContent = 'RESET GAME'
-        userEndChoice.appendChild(newGameOption);
-        userEndChoice.appendChild(resetOption);
-
-        userEndChoice.addEventListener('click',function(event)
-        {
-            if(event.target.innerText === 'NEW GAME')
-            {
-                chooseDifficulty();
-            } else
-            {
-                location.reload();
-            }
-
-        })
-        console.log("You won!")
+        console.log("You won!");
     }
 }
 
@@ -243,24 +228,31 @@ function checkIfLose() {
     }
 }
 
+function hideMessage()
+{
+    wonMessage.classList.add('hidden');
+    resetGame();
+}
 
+function resetGame()
+{
+    const newGameOption = document.createElement('button');
+    newGameOption.textContent = 'NEW GAME';
+    newGameOption.classList.add('start-btn');
 
+    userEndChoice.appendChild(newGameOption);
 
+    userEndChoice.classList.remove('hidden');
 
+    userEndChoice.addEventListener('click',function(event)
+    {
+        if(event.target)
+        {
+            location.reload();
+        }
 
-
-// arrayOfLines[i].addEventListener('input',function(event)
-//     {
-
-//             if(event.target !== correctWord[i])
-//             {
-//                 decrementHealth(arrayOfLines[i]);
-//             } else
-//             {
-//                 correctGuess(arrayOfLines[i],correctWord[i]);
-//             }
-//         })
-
+    })
+}
 
 function decrementHealth(incorrectLine) {
 
