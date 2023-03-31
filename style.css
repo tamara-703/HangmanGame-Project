@@ -50,18 +50,20 @@ body {
     margin: 0 0 0 550px;
 }
 
-.difficulty-container {
+#difficulty-container {
     text-align: center;
 }
 
-.difficulty-container div {
+#difficulty-container div {
     width: 100%;
     display: flex;
     justify-content: space-between;
     margin: 1.2em 0 2.4em 0;
 }
 
-.difficulty-container button {
+
+
+#difficulty-container button {
     padding: 0.6em 1.2em;
     border: 3px solid #000000;
     background-color: #ffffff;
@@ -69,18 +71,22 @@ body {
     border-radius: 0.3em;
     text-transform: capitalize;
     cursor: pointer;
+    gap: 10px;
 }
 
-.difficulty-container button:disabled {
-    border: 3px solid #808080;
-    color: #808080;
-    background-color: #efefef;
+#difficulty-container button.green-btn:hover {
+    background-color: green;
+    color: white;
 }
 
-.difficulty-container button.active {
-    background-color: #8c52ff;
-    border: 3px solid #000000;
-    color: #fff;
+#difficulty-container button.yellow-btn:hover {
+    background-color: rgb(192, 192, 28);
+    color: white;
+}
+
+#difficulty-container button.red-btn:hover {
+    background-color: red;
+    color: white;
 }
 
 .letter-container {

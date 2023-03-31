@@ -51,26 +51,31 @@ function chooseDifficulty() {
     mediumBtn.innerText = 'MEDIUM';
     hardBtn.innerHTML = 'HARD';
 
-    //TODO change the color of the buttons depending on difficulty. green for easy, yellow for medium and red for hard
-
     difficulty.appendChild(easyBtn);
     difficulty.appendChild(mediumBtn);
     difficulty.appendChild(hardBtn);
 
+    difficulty.children[0].classList.add("green-btn");
+    difficulty.children[1].classList.add("yellow-btn");
+    difficulty.children[2].classList.add("red-btn");
+
     difficulty.addEventListener('click', function (event) {
         //depedning on the innertext of the button, generateblocks and randomwords depending on the difficulty array chosen
         if (event.target.innerText === 'EASY') {
-            const randomEasyWords = ["apple", "fireworks", "white", "less", "table", "author", "son"];
+            const randomEasyWords = ["apple", "fireworks", "white", "less", "table", "author", "son","animal","staff","jelly","beekeeper"];
+            console.log(randomEasyWords.length);
             loseCanvas.classList.remove('hidden');
             initialCanvas();
             instructionsEl.classList.add('hidden');
             difficulty.style.display = 'none';
+            difficulty.children[0].classList.add('hover-green');
             generateBlocks();
             generateRandomWord(randomEasyWords);
         }
 
         if (event.target.innerText === 'MEDIUM') {
-            const randomMediumWords = ['argument', 'beautiful', 'branch', 'detail', 'friend'];
+            const randomMediumWords = ['argument', 'beautiful', 'branch', 'detail', 'friend','blizzard','cycle','voodoo'];
+            console.log(randomMediumWords.length);
             loseCanvas.classList.remove('hidden');
             initialCanvas();
             instructionsEl.classList.add('hidden');
@@ -80,7 +85,8 @@ function chooseDifficulty() {
         }
 
         if (event.target.innerText === 'HARD') {
-            const randomHardWords = ["askew", "crypt", "dwarves", "fixable"];
+            const randomHardWords = ["askew", "crypt", "dwarves", "fixable","boggle","exodus","gossip","nightclub","pneumonia","jazz","frazzled","awkward"];
+            console.log(randomHardWords.length);
             loseCanvas.classList.remove('hidden');
             initialCanvas();
             instructionsEl.classList.add('hidden');
@@ -109,8 +115,6 @@ function generateBlocks() {
         letterContainer.appendChild(letter);
     }
 
-    //console.log(flexContainer);
-
 }
 
 //this will generate a random word from the array on click
@@ -119,15 +123,15 @@ function generateRandomWord(random) {
     let randomWord = Math.floor(Math.random() * random.length);
     let word = "";
     console.log(random)
-    if (random.length === 7) {
+    if (random.length === 11) {
         for (let i = 0; i < random.length; i++) {
             word = random[randomWord];
         }
-    } else if (random.length === 5) {
+    } else if (random.length === 8) {
         for (let i = 0; i < random.length; i++) {
             word = random[randomWord];
         }
-    } else if (random.length === 4) {
+    } else if (random.length === 12) {
         for (let i = 0; i < random.length; i++) {
             word = random[randomWord];
         }
@@ -319,6 +323,7 @@ function hideMessage() {
 }
 
 function resetGame() {
+
     const newGameOption = document.createElement('button');
     newGameOption.textContent = 'NEW GAME';
     newGameOption.classList.add('start-btn');
