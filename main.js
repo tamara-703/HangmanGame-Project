@@ -16,7 +16,7 @@ const dashesContainer = document.querySelector(".dashes-container");
 const difficulty = document.querySelector("#difficulty-container");
 const trackScore = document.querySelector('.track-winning-score');
 const letterContainer = document.querySelector('.letter-container');
-const wonMessage = document.querySelector('.won-message-container');
+const statusMessage = document.querySelector('.status-message-container');
 const userEndChoice = document.querySelector('.new-game-popup');
 const loseCanvas = document.querySelector('.lose-count-canvas');
 
@@ -63,7 +63,6 @@ function chooseDifficulty() {
         //depedning on the innertext of the button, generateblocks and randomwords depending on the difficulty array chosen
         if (event.target.innerText === 'EASY') {
             const randomEasyWords = ["apple", "fireworks", "white", "less", "table", "author", "son","animal","staff","jelly","beekeeper"];
-            console.log(randomEasyWords.length);
             loseCanvas.classList.remove('hidden');
             initialCanvas();
             instructionsEl.classList.add('hidden');
@@ -75,7 +74,6 @@ function chooseDifficulty() {
 
         if (event.target.innerText === 'MEDIUM') {
             const randomMediumWords = ['argument', 'beautiful', 'branch', 'detail', 'friend','blizzard','cycle','voodoo'];
-            console.log(randomMediumWords.length);
             loseCanvas.classList.remove('hidden');
             initialCanvas();
             instructionsEl.classList.add('hidden');
@@ -86,7 +84,6 @@ function chooseDifficulty() {
 
         if (event.target.innerText === 'HARD') {
             const randomHardWords = ["askew", "crypt", "dwarves", "fixable","boggle","exodus","gossip","nightclub","pneumonia","jazz","frazzled","awkward"];
-            console.log(randomHardWords.length);
             loseCanvas.classList.remove('hidden');
             initialCanvas();
             instructionsEl.classList.add('hidden');
@@ -171,44 +168,54 @@ function guess(word) {
 
         let found = false;
 
-        for (let i = 0; i < correctWord.length; i++) {
+        if(event.target)
+        {
+            console.log(event.target)
+            for (let i = 0; i < correctWord.length; i++) {
 
-            // if(event.target.innerText.toLowerCase() === correctWord[i])
-            // {
-            if (correctWord[i] === displayLetter.innerText.toLowerCase()) {
+                // if(event.target.innerText.toLowerCase() === correctWord[i])
+                // {
+                if (correctWord[i] === displayLetter.innerText.toLowerCase()) {
 
-                found = true;
+                    found = true;
 
-                dashesContainer.children[i].innerText = displayLetter.innerText;
-                dashesContainer.children[i].classList.remove('dotted-lines');
-                dashesContainer.children[i].classList.add('letter-design');
-                dashesContainer.children[i].style.color = 'lightPink';
+                    dashesContainer.children[i].innerText = displayLetter.innerText;
+                    dashesContainer.children[i].classList.remove('dotted-lines');
+                    dashesContainer.children[i].classList.add('letter-design');
+                    dashesContainer.children[i].style.color = 'lightPink';
 
-                //console.log(dashesContainer.children[i]);
-                //keep track of win count and create a new element to display score to the screen
-                winCount += 1;
-                const winScore = document.createElement('p');
-                winScore.setAttribute('class', 'win-score');
-                //console.log(winScore);
-                trackScore.appendChild(winScore);
+                    //console.log(dashesContainer.children[i]);
+                    //keep track of win count and create a new element to display score to the screen
+                    winCount += 1;
+                    const winScore = document.createElement('p');
+                    winScore.setAttribute('class', 'win-score');
+                    //console.log(winScore);
+                    trackScore.appendChild(winScore);
 
-                letterCount.push(dashesContainer.children[i].innerText);
-                trackScore.textContent = `Correct Guesses: ${winCount}\nCorrect letters: ${letterCount}`;
-                //console.log(letterCount);
-                event.target.disabled = true;
+                    letterCount.push(dashesContainer.children[i].innerText);
+                    trackScore.textContent = `Correct Guesses: ${winCount}\nCorrect letters: ${letterCount}`;
+                    //console.log(letterCount);
+                    event.target.disabled = true;
+                }
+
             }
-
         }
+
 
         checkIfWon(correctWord);
 
-        if (found == false) {
-            userHealth -= 1;
-            event.target.disabled = true;
-            console.log(userHealth);
-            drawCanvas(userHealth);
+        if(event.target)
+        {
+            console.log(event.target)
+            if (found == false) {
+                userHealth -= 1;
+                event.target.disabled = true;
+                console.log(userHealth);
+                drawCanvas(userHealth);
 
+            }
         }
+
 
         console.log(`Win: ${winCount}\nLose: ${userHealth}`);
 
@@ -219,9 +226,10 @@ function checkIfWon(correctWord) {
     if (winCount === correctWord.length) {
         const userWon = document.createElement('h1');
         userWon.textContent = 'YOU WON!';
+        userWon.style.color = 'green';
 
-        wonMessage.classList.remove('hidden');
-        wonMessage.appendChild(userWon);
+        statusMessage.classList.remove('hidden');
+        statusMessage.appendChild(userWon);
         //settimeout for the wonMessage
         setTimeout(hideMessage, 5000);
     }
@@ -275,11 +283,11 @@ function drawCanvas(userHealth) {
         //left leg
         case 5:
             //drawLine(70, 80, 50, 110);
-            drawLine(70, 80, 50, 110);
+            drawLine(70, 100, 50, 110);
             break;
         //right leg
         case 4:
-            drawLine(70, 80, 90, 110);
+            drawLine(70, 100, 90, 110);
             break;
         //left eye
         case 3:
@@ -296,9 +304,12 @@ function drawCanvas(userHealth) {
             break;
         //sad mouth
         case 1:
-            ctx.arc(75, 75, 35, 0, Math.PI, false); //this is clockwise, change it to anti-clockwise
+            // ctx.arc(75, 75, 35, 0, Math.PI, false);
+            ctx.arc(70, 60, 5, 0, Math.PI, true);
             ctx.stroke();
             userHealth -= 1;
+            console.log(userHealth);
+            checkIfLose(userHealth);
             break;
 
 
@@ -307,18 +318,23 @@ function drawCanvas(userHealth) {
 }
 
 function checkIfLose(userHealth) {
-    if (userHealth >= 10) {
-        userHealth -= 1;
-        drawCanvas(userHealth);
-        console.log(`Win: ${winCount}\nLose: ${userHealth}`);
-    } else {
-        console.log("You lost.")
+
+    if(userHealth === 0)
+    {
+        const userLost = document.createElement('h1');
+        userLost.textContent = 'YOU LOST';
+        userLost.style.color = 'darkred';
+
+        statusMessage.classList.remove('hidden');
+        statusMessage.appendChild(userLost);
+        //settimeout for the wonMessage
+        setTimeout(hideMessage, 5000);
     }
 
 }
 
 function hideMessage() {
-    wonMessage.classList.add('hidden');
+    statusMessage.classList.add('hidden');
     resetGame();
 }
 
