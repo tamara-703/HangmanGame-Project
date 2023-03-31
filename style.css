@@ -33,7 +33,6 @@ body {
 .start-btn {
     align-self: center;
     background-color: #4CAF50;
-    /* Green */
     border: none;
     color: white;
     padding: 15px 32px;
@@ -138,6 +137,11 @@ body {
     margin-left: 800px;
 
 }
+
+/* .hint {
+    margin-left: 920px;
+    margin-top: 150px;
+} */
 
 .status-message-container {
     display: flex;

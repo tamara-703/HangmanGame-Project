@@ -11,7 +11,6 @@
 const startBtn = document.querySelector(".start-btn");
 const flexContainer = document.querySelector(".flex-container");
 const instructionsEl = document.querySelector(".instructions");
-const userInput = document.querySelector(".user-input");
 const dashesContainer = document.querySelector(".dashes-container");
 const difficulty = document.querySelector("#difficulty-container");
 const trackScore = document.querySelector('.track-winning-score');
@@ -19,12 +18,14 @@ const letterContainer = document.querySelector('.letter-container');
 const statusMessage = document.querySelector('.status-message-container');
 const userEndChoice = document.querySelector('.new-game-popup');
 const loseCanvas = document.querySelector('.lose-count-canvas');
+const hintMessage = document.querySelector('.hint');
 
 //global variables
 let userHealth = 10;
 let winCount = 0;
 const incorrectLetters = "";
 let ctx = loseCanvas.getContext("2d");
+let wrongGuesses = 0;
 
 
 startBtn.addEventListener('click', function (event) {
@@ -119,7 +120,7 @@ function generateRandomWord(random) {
     //TODO change the random words
     let randomWord = Math.floor(Math.random() * random.length);
     let word = "";
-    console.log(random)
+
     if (random.length === 11) {
         for (let i = 0; i < random.length; i++) {
             word = random[randomWord];
@@ -143,8 +144,6 @@ function generateRandomWord(random) {
         dashesContainer.children[j].style.color = 'white';
     }
 
-    //console.log(word);
-    //console.log(dashesContainer)
     guess(word);
 }
 
@@ -157,45 +156,40 @@ function guess(word) {
     console.log(correctWord);
 
     letterContainer.addEventListener('click', function (event) {
-        //console.log(event.target.innerText);
-        //if (correctWord.includes(event.target.innerText.toLowerCase()))
 
         const displayLetter = document.createElement('p');
         displayLetter.textContent = event.target.innerText;
         displayLetter.classList.add('letter-design');
 
-        //create a new paragraph element with the text of the correct guessed letter
-
         let found = false;
 
         if(event.target)
         {
-            console.log(event.target)
             for (let i = 0; i < correctWord.length; i++) {
 
-                // if(event.target.innerText.toLowerCase() === correctWord[i])
-                // {
                 if (correctWord[i] === displayLetter.innerText.toLowerCase()) {
 
                     found = true;
-
                     dashesContainer.children[i].innerText = displayLetter.innerText;
                     dashesContainer.children[i].classList.remove('dotted-lines');
                     dashesContainer.children[i].classList.add('letter-design');
                     dashesContainer.children[i].style.color = 'lightPink';
 
-                    //console.log(dashesContainer.children[i]);
                     //keep track of win count and create a new element to display score to the screen
                     winCount += 1;
                     const winScore = document.createElement('p');
                     winScore.setAttribute('class', 'win-score');
-                    //console.log(winScore);
+
                     trackScore.appendChild(winScore);
 
                     letterCount.push(dashesContainer.children[i].innerText);
                     trackScore.textContent = `Correct Guesses: ${winCount}\nCorrect letters: ${letterCount}`;
-                    //console.log(letterCount);
+
                     event.target.disabled = true;
+
+                    //correctWord.splice(correctWord[i],1);
+                    //console.log(correctWord);
+                    console.log(dashesContainer)
                 }
 
             }
@@ -204,22 +198,85 @@ function guess(word) {
 
         checkIfWon(correctWord);
 
-        if(event.target)
-        {
-            console.log(event.target)
             if (found == false) {
                 userHealth -= 1;
+
+                wrongGuesses += 1;
+                console.log(wrongGuesses)
+
                 event.target.disabled = true;
                 console.log(userHealth);
                 drawCanvas(userHealth);
 
             }
-        }
 
 
-        console.log(`Win: ${winCount}\nLose: ${userHealth}`);
+            if(wrongGuesses > 3)
+            {
+                requestHint(correctWord,dashesContainer);
+            }
+
+
+        //console.log(`Win: ${winCount}\nLose: ${userHealth}`);
 
     })
+}
+
+function requestHint(correctWord,dashesContainer)
+{
+    console.log(dashesContainer.children);
+    const hintBtn = document.createElement('button');
+    let randomNum = 0;
+    let randomLetter = "";
+    let notIncluded = [];
+    hintBtn.textContent = 'HINT?';
+    hintBtn.classList.add('start-btn');
+
+    hintMessage.classList.remove('hidden');
+    hintMessage.appendChild(hintBtn);
+
+    hintBtn.addEventListener('click',function(event)
+    {
+        if(event.target)
+        {
+            hintMessage.classList.add('hidden');
+
+            for(let j = 0; j < correctWord.length; j++)
+            {
+                if(correctWord[j] === dashesContainer.children[j].innerText) //apple
+                {
+                    notIncluded.push(dashesContainer.children[j].innerText);
+                    //randomLetter = correctWord[j];
+                    // correctWord.splice(correctWord[j],dashesContainer.children[j]);
+
+                }
+
+            }
+
+            console.log(notIncluded);
+
+            for(let i = 0; i < notIncluded.length; i++)
+            {
+                randomLetter = notIncluded[i];
+            }
+
+            console.log(randomLetter);
+
+            for(let y = 0; y < dashesContainer.childElementCount; y++)
+            {
+                if(randomLetter === dashesContainer.children[y].innerText)
+                {
+                    dashesContainer.children[y].innerText = randomLetter;
+                    dashesContainer.children[y].classList.remove('dotted-lines');
+                    dashesContainer.children[y].classList.add('letter-design');
+                    dashesContainer.children[y].style.color = 'lightPink';
+                    letterContainer.children[y].disabled = true;
+                }
+            }
+
+        }
+    })
+
 }
 
 function checkIfWon(correctWord) {
@@ -308,7 +365,7 @@ function drawCanvas(userHealth) {
             ctx.arc(70, 60, 5, 0, Math.PI, true);
             ctx.stroke();
             userHealth -= 1;
-            console.log(userHealth);
+
             checkIfLose(userHealth);
             break;
 
