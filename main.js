@@ -161,6 +161,8 @@ function guess(word) {
         displayLetter.textContent = event.target.innerText;
         displayLetter.classList.add('letter-design');
 
+        console.log(letterContainer)
+
         let found = false;
 
         if(event.target)
@@ -213,6 +215,7 @@ function guess(word) {
 
             if(wrongGuesses > 3)
             {
+                wrongGuesses = 0;
                 requestHint(correctWord,dashesContainer);
             }
 
@@ -240,6 +243,8 @@ function requestHint(correctWord,dashesContainer)
         if(event.target)
         {
             hintMessage.classList.add('hidden');
+            hintMessage.firstElementChild.remove();
+            console.log(hintMessage.children);
 
             for(let j = 0; j < correctWord.length; j++)
             {
@@ -253,12 +258,15 @@ function requestHint(correctWord,dashesContainer)
 
             }
 
-            console.log(notIncluded);
+            console.log('not included: ' + notIncluded);
+            console.log('correct word: ' + correctWord)
 
             for(let i = 0; i < notIncluded.length; i++)
             {
                 randomLetter = notIncluded[i];
             }
+
+            //TODO disable the correct letter upon giving the hint
 
             console.log(randomLetter);
 
@@ -266,20 +274,26 @@ function requestHint(correctWord,dashesContainer)
             {
                 if(randomLetter === dashesContainer.children[y].innerText)
                 {
-                    dashesContainer.children[y].innerText = randomLetter;
+                    dashesContainer.children[y].innerText = randomLetter.toUpperCase();
                     dashesContainer.children[y].classList.remove('dotted-lines');
                     dashesContainer.children[y].classList.add('letter-design');
                     dashesContainer.children[y].style.color = 'lightPink';
-                    letterContainer.children[y].disabled = true;
+                    letterContainer.children[y].disabled = true; //ASK ABOUT THIS ON TUESDAY. THIS IS THE ONLY THING LEFT TO DO BEFORE DOING THE READ ME FILE
+                    winCount++;
+
+
                 }
             }
-
         }
+
+        checkIfWon(correctWord);
+
     })
 
 }
 
 function checkIfWon(correctWord) {
+    console.log('I am in the checkifwon method');
     if (winCount === correctWord.length) {
         const userWon = document.createElement('h1');
         userWon.textContent = 'YOU WON!';
