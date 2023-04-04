@@ -142,13 +142,17 @@ function generateRandomWord(random) {
 function guess(word) {
     const correctWord = word.split("");
     let letterCount = [];
-    let found = false;
+
+
+    console.log(correctWord);
 
     letterContainer.addEventListener('click', function (event) {
 
         const displayLetter = document.createElement('p');
         displayLetter.textContent = event.target.innerText;
         displayLetter.classList.add('letter-design');
+
+        let found = false;
 
         if (event.target) {
             for (let i = 0; i < correctWord.length; i++) {
@@ -361,6 +365,7 @@ function checkIfLose(userHealth) {
 
         statusMessage.classList.remove('hidden');
         statusMessage.appendChild(userLost);
+        
         //settimeout for the wonMessage
         setTimeout(hideMessage, 5000);
     }
