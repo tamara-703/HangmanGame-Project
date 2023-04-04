@@ -25,10 +25,9 @@ This project is a course exercise that implements the classic hangman game. Here
 
 ![Screenshot of the start game of the page](./images/Start-Game.png)
 
-[Video of player choosing difficulty](./images/choose-difficulty-page.mp4)
+<iframe width="1903" height="760" src="https://www.youtube.com/embed/BsRPEBYUW1U" title="choose difficulty page - HangmanProject - Github Readme Purposes" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ![Screenshot of a general example of user playing the game](./images/example-of-playing-the-game.png)
-
 
 ## Installation:
 ```
