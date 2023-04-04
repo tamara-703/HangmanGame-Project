@@ -27,35 +27,49 @@ git push
 
 ```
 
-## Game functionality
-### HTML file
+# Game functionality
+## HTML (index) file
 The html file contains the basic layout of the game page. Here is what this page does:
 - links style sheet and javascript in the *head element*
 - creates the basic layout of the page using a *header 1 element* and multiple *div elements* that contain the page's main displays
+> External sources: None
 ### body element of the html index file
 ![body contents of the html index file](./images/html-body-contents.png)
 
-### CSS file
+## CSS (style) file
+The css file contains all the frontend styles for the webpage. Including color, display, dimensions, etc.
 - creates a style sheet that includes all styling for the page.
 > External style sheets: None
 
-### Javascript file
+## Javascript (main) file
+The javascript file contains *all* main functionality and mechanics of the game
 - creates a main javascript file which contains all game mechanics
-
-
-## Javascript file queryselectors and global variables
+> External sources: None
+### Javascript file queryselectors and global variables
 ![queryselectors and global variables](./images/query-and-global-variables.png)
 
-## Implementation
+
+# Implementation
 > * Classes included: None
-> * Methods included: 10
 > * Independant event listeners: 1
+> * Methods included: 12
+
+
+### Independant event listeners:
+1. **startBtn.addEventListener(*action*,*anonymous function*)**
+> * Parameters: event
+* This event listener is attached to the start button at the beginning of the game. Once user clicks it, the game begins
+* calls the **chooseDifficulty()** method
+
+![start-button](./images/start-button.png)
+
 
 ### Main methods:
 1. **chooseDifficulty()**
     > * Parameters: None
     > * Event listeners: 1
     * Creates three difficulty buttons that the user can choose from. An array of varied difficult words is created based on the difficulty chosen
+    * Calls the **generateBlocks()** , **generateRandomWord()** and **initialCanvas()** methods
 
 
 2. **generateBlocks()**
@@ -68,6 +82,7 @@ The html file contains the basic layout of the game page. Here is what this page
     > * Event listeners: None
     * Generates a random word from the passed array of words (*the array passed depends on the chosen diffuclty*)
     * Generates blocks on the page depending on the numbers of letters in the chosen random word from the passed array
+    * Calls the **guess()** method
 
 
 
@@ -90,6 +105,8 @@ The html file contains the basic layout of the game page. Here is what this page
         - If user still hadn't won, the method will check if the user guessed incorrectly. If `found` local variable is *false* at this point, decrement user health by decrementing the global variable `userHealth` by 1. Every time a user's health is decremented by 1, **drawCanvas()** method is called
 
         - Method will then check if user has accumulated three wrong guesses during their playthough and will store that in the `wrongGuesses` global variable. If wrongGuesses reaches a maximum of three guesses, **requestHint()** method is called.
+
+    * Calls the **checkIfWon()** , **requestHint()** and **drawCanvas()** methods
 
 5. **requestHint()**
     > * Parameters: *string* , *document.querySelector(class)*
@@ -116,36 +133,45 @@ The html file contains the basic layout of the game page. Here is what this page
 
         4. Check if user has guessed the correct word by calling the **checkIfWon()** method
 
+    * Calls the **checkIfWon()** method
+
 6. **checkIfWon()**
     > * Parameters: string
     > * Event listeners: None
     * Checks if user guessed the correct by checking if global variable `winCount` is greater than length of the correct word. If validation passes, display a message game is won
     ![won-message](./images/won-message.png)
 
+    * Calls the **setTimeOut()** method
+
 7. **checkIfLose()**
-    > Parameters: number
+    > * Parameters: number
+    > * Event listeners: None
     * checks if user has lost by validating if global variable `userHealth` is 0. If validation passess, display a message game is lost
     ![lost-message](./images/lost-message.png)
+
+    * Calls the **setTimeOut()** method
 
 8. **initialCanvas()**
     > * Parameters: None
     > * Event listeners: None
     * draws initial lines that represent where the man will be hanged
 
-10. **drawLine()**
-    > Parameters: number, number, number, number
+9. **drawLine()**
+    > * Parameters: number, number, number, number
+    > * Event listeners: None
     * A literal method that will be called in **drawCanvas()** and **initialCanvas()** to draw hangman and noose
 
 10. **drawCanvas()**
     > * Parameters: number
     > * Event listeners: None
     * Uses the switch statement to compare decremented cases of global variable `userHealth`. Draws a part of the hangman for each decremented health
+    * Calls the **checkIfLose()** method
 
 11. **hideMessage()**
     > * Parameters: None
     > * Event listeners: None
     * Hide game over message after 5 seconds. ***(called within a setTimeOut() method)***
-    * Calls the **resetGame() method**
+    * Calls the **resetGame()** method
 
 12. **resetGame()**
     > * Parameters: None
