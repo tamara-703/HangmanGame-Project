@@ -1,12 +1,3 @@
-/* A game of hangman.
-    User will be provided with a number of lives at the start of the game. They will need to guess the string correctly
-    Each incorrect input will deduct a life. Each correct word will be added to the user's score.
-    The game is over if the user either wins or loses the game. The user wins if they guess a N number of strings.
-    The user loses if their lives reach zero or if they reach the maximum number of incorrect guesses
-    The game will track of incorrect guesses and remaining lives of the player.*/
-
-//for later: use a difficulty system, where the difficulty of the words changes depending on the user's difficulty
-
 //queryselectors
 const startBtn = document.querySelector(".start-btn");
 const flexContainer = document.querySelector(".flex-container");
@@ -36,6 +27,8 @@ startBtn.addEventListener('click', function (event) {
     }
 });
 
+/* This function will create three difficulty button that the user can choose from.
+    An array of random words will be chosen depending on the chosen difficulty*/
 function chooseDifficulty() {
 
     instructionsEl.classList.remove('hidden');
@@ -97,9 +90,9 @@ function chooseDifficulty() {
 
 }
 
-//generate letter blocks
+/* This function will generate the 24-alphabet letters as buttons */
 function generateBlocks() {
-    //generate the letters
+    //display container that will hold the letter buttons
     flexContainer.classList.remove("hidden");
     letterContainer.classList.remove("hidden");
 
@@ -108,7 +101,7 @@ function generateBlocks() {
         const letter = document.createElement('button');
         letter.textContent = String.fromCharCode(i);
         letter.classList.add("letter-buttons-design");
-        //flexContainer.appendChild(letter);
+
         letterContainer.appendChild(letter);
     }
 
@@ -116,7 +109,7 @@ function generateBlocks() {
 
 //this will generate a random word from the array on click
 function generateRandomWord(random) {
-    //TODO change the random words
+
     let randomWord = Math.floor(Math.random() * random.length);
     let word = "";
 
@@ -146,23 +139,16 @@ function generateRandomWord(random) {
     guess(word);
 }
 
-//TODO (potential if i have time) give the use the choice to request a hint after 4 failed tries. The hint should populate a random letter from the correct word
-
 function guess(word) {
     const correctWord = word.split("");
     let letterCount = [];
-
-    console.log(correctWord);
+    let found = false;
 
     letterContainer.addEventListener('click', function (event) {
 
         const displayLetter = document.createElement('p');
         displayLetter.textContent = event.target.innerText;
         displayLetter.classList.add('letter-design');
-
-        console.log(letterContainer)
-
-        let found = false;
 
         if (event.target) {
             for (let i = 0; i < correctWord.length; i++) {
@@ -186,8 +172,6 @@ function guess(word) {
                     trackScore.textContent = `Correct Guesses: ${winCount}\nCorrect letters: ${letterCount}`;
 
                     event.target.disabled = true;
-
-                    console.log(dashesContainer)
                 }
 
             }
@@ -214,16 +198,12 @@ function guess(word) {
             requestHint(correctWord, dashesContainer);
         }
 
-
-        //console.log(`Win: ${winCount}\nLose: ${userHealth}`);
-
     })
 }
 
 function requestHint(correctWord, dashesContainer) {
-    console.log(dashesContainer.children);
+
     const hintBtn = document.createElement('button');
-    let randomNum = 0;
     let randomLetter = "";
     let notIncluded = [];
     hintBtn.textContent = 'HINT?';
@@ -236,14 +216,11 @@ function requestHint(correctWord, dashesContainer) {
         if (event.target) {
             hintMessage.classList.add('hidden');
             hintMessage.firstElementChild.remove();
-            console.log(hintMessage.children);
 
             for (let j = 0; j < correctWord.length; j++) {
-                if (correctWord[j] === dashesContainer.children[j].innerText) 
+                if (correctWord[j] === dashesContainer.children[j].innerText)
                 {
                     notIncluded.push(dashesContainer.children[j].innerText);
-                    //randomLetter = correctWord[j];
-                    // correctWord.splice(correctWord[j],dashesContainer.children[j]);
 
                 }
 
@@ -263,7 +240,7 @@ function requestHint(correctWord, dashesContainer) {
                     for (let i = 0; i < letterContainer.childElementCount; i++) {
                         if(randomLetter === letterContainer.children[i].innerText.toLowerCase())
                         {
-                            letterContainer.children[i].disabled = true;
+                            letterContainer.children[i].disabled = true; //disable chosen button
                         }
                     }
                     winCount++;
@@ -287,6 +264,7 @@ function checkIfWon(correctWord) {
 
         statusMessage.classList.remove('hidden');
         statusMessage.appendChild(userWon);
+
         //settimeout for the wonMessage
         setTimeout(hideMessage, 5000);
     }
