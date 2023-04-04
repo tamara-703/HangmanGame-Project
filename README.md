@@ -18,8 +18,6 @@ This project is a course exercise that implements the classic hangman game. Here
 ![Screenshot of a general example of user playing the game](./images/example-of-playing-the-game.png)
 
 
-
-
 ## Some basic git commands:
 ```
 git status
