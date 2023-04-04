@@ -23,7 +23,6 @@ const hintMessage = document.querySelector('.hint');
 //global variables
 let userHealth = 10;
 let winCount = 0;
-const incorrectLetters = "";
 let ctx = loseCanvas.getContext("2d");
 let wrongGuesses = 0;
 
@@ -63,7 +62,7 @@ function chooseDifficulty() {
     difficulty.addEventListener('click', function (event) {
         //depedning on the innertext of the button, generateblocks and randomwords depending on the difficulty array chosen
         if (event.target.innerText === 'EASY') {
-            const randomEasyWords = ["apple", "fireworks", "white", "less", "table", "author", "son","animal","staff","jelly","beekeeper"];
+            const randomEasyWords = ["apple", "fireworks", "white", "less", "table", "author", "son", "animal", "staff", "jelly", "beekeeper"];
             loseCanvas.classList.remove('hidden');
             initialCanvas();
             instructionsEl.classList.add('hidden');
@@ -74,7 +73,7 @@ function chooseDifficulty() {
         }
 
         if (event.target.innerText === 'MEDIUM') {
-            const randomMediumWords = ['argument', 'beautiful', 'branch', 'detail', 'friend','blizzard','cycle','voodoo'];
+            const randomMediumWords = ['argument', 'beautiful', 'branch', 'detail', 'friend', 'blizzard', 'cycle', 'voodoo'];
             loseCanvas.classList.remove('hidden');
             initialCanvas();
             instructionsEl.classList.add('hidden');
@@ -84,7 +83,7 @@ function chooseDifficulty() {
         }
 
         if (event.target.innerText === 'HARD') {
-            const randomHardWords = ["askew", "crypt", "dwarves", "fixable","boggle","exodus","gossip","nightclub","pneumonia","jazz","frazzled","awkward"];
+            const randomHardWords = ["askew", "crypt", "dwarves", "fixable", "boggle", "exodus", "gossip", "nightclub", "pneumonia", "jazz", "frazzled", "awkward"];
             loseCanvas.classList.remove('hidden');
             initialCanvas();
             instructionsEl.classList.add('hidden');
@@ -165,8 +164,7 @@ function guess(word) {
 
         let found = false;
 
-        if(event.target)
-        {
+        if (event.target) {
             for (let i = 0; i < correctWord.length; i++) {
 
                 if (correctWord[i] === displayLetter.innerText.toLowerCase()) {
@@ -189,8 +187,6 @@ function guess(word) {
 
                     event.target.disabled = true;
 
-                    //correctWord.splice(correctWord[i],1);
-                    //console.log(correctWord);
                     console.log(dashesContainer)
                 }
 
@@ -200,24 +196,23 @@ function guess(word) {
 
         checkIfWon(correctWord);
 
-            if (found == false) {
-                userHealth -= 1;
+        if (found == false) {
+            userHealth -= 1;
 
-                wrongGuesses += 1;
-                console.log(wrongGuesses)
+            wrongGuesses += 1;
+            console.log(wrongGuesses)
 
-                event.target.disabled = true;
-                console.log(userHealth);
-                drawCanvas(userHealth);
+            event.target.disabled = true;
+            console.log(userHealth);
+            drawCanvas(userHealth);
 
-            }
+        }
 
 
-            if(wrongGuesses > 3)
-            {
-                wrongGuesses = 0;
-                requestHint(correctWord,dashesContainer);
-            }
+        if (wrongGuesses > 3) {
+            wrongGuesses = 0;
+            requestHint(correctWord, dashesContainer);
+        }
 
 
         //console.log(`Win: ${winCount}\nLose: ${userHealth}`);
@@ -225,8 +220,7 @@ function guess(word) {
     })
 }
 
-function requestHint(correctWord,dashesContainer)
-{
+function requestHint(correctWord, dashesContainer) {
     console.log(dashesContainer.children);
     const hintBtn = document.createElement('button');
     let randomNum = 0;
@@ -238,17 +232,14 @@ function requestHint(correctWord,dashesContainer)
     hintMessage.classList.remove('hidden');
     hintMessage.appendChild(hintBtn);
 
-    hintBtn.addEventListener('click',function(event)
-    {
-        if(event.target)
-        {
+    hintBtn.addEventListener('click', function (event) {
+        if (event.target) {
             hintMessage.classList.add('hidden');
             hintMessage.firstElementChild.remove();
             console.log(hintMessage.children);
 
-            for(let j = 0; j < correctWord.length; j++)
-            {
-                if(correctWord[j] === dashesContainer.children[j].innerText) //apple
+            for (let j = 0; j < correctWord.length; j++) {
+                if (correctWord[j] === dashesContainer.children[j].innerText) 
                 {
                     notIncluded.push(dashesContainer.children[j].innerText);
                     //randomLetter = correctWord[j];
@@ -258,32 +249,28 @@ function requestHint(correctWord,dashesContainer)
 
             }
 
-            console.log('not included: ' + notIncluded);
-            console.log('correct word: ' + correctWord)
-
-            for(let i = 0; i < notIncluded.length; i++)
-            {
+            for (let i = 0; i < notIncluded.length; i++) {
                 randomLetter = notIncluded[i];
             }
 
-            //TODO disable the correct letter upon giving the hint
-
-            console.log(randomLetter);
-
-            for(let y = 0; y < dashesContainer.childElementCount; y++)
-            {
-                if(randomLetter === dashesContainer.children[y].innerText)
-                {
+            for (let y = 0; y < dashesContainer.childElementCount; y++) {
+                if (randomLetter === dashesContainer.children[y].innerText) {
                     dashesContainer.children[y].innerText = randomLetter.toUpperCase();
                     dashesContainer.children[y].classList.remove('dotted-lines');
                     dashesContainer.children[y].classList.add('letter-design');
                     dashesContainer.children[y].style.color = 'lightPink';
-                    letterContainer.children[y].disabled = true; //ASK ABOUT THIS ON TUESDAY. THIS IS THE ONLY THING LEFT TO DO BEFORE DOING THE READ ME FILE
+
+                    for (let i = 0; i < letterContainer.childElementCount; i++) {
+                        if(randomLetter === letterContainer.children[i].innerText.toLowerCase())
+                        {
+                            letterContainer.children[i].disabled = true;
+                        }
+                    }
                     winCount++;
-
-
                 }
             }
+
+
         }
 
         checkIfWon(correctWord);
@@ -293,7 +280,6 @@ function requestHint(correctWord,dashesContainer)
 }
 
 function checkIfWon(correctWord) {
-    console.log('I am in the checkifwon method');
     if (winCount === correctWord.length) {
         const userWon = document.createElement('h1');
         userWon.textContent = 'YOU WON!';
@@ -390,8 +376,7 @@ function drawCanvas(userHealth) {
 
 function checkIfLose(userHealth) {
 
-    if(userHealth === 0)
-    {
+    if (userHealth === 0) {
         const userLost = document.createElement('h1');
         userLost.textContent = 'YOU LOST';
         userLost.style.color = 'darkred';
