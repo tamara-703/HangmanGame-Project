@@ -14,7 +14,11 @@ This project is a course exercise that implements the classic hangman game. Here
 - HTML
 - CSS
 - Javascript
+```
 
+# Environments used
+```
+- Github pages
 ```
 
 ## Screenshots
