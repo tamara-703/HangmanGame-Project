@@ -1,6 +1,6 @@
-# HangmanGame-Project with HTML, CSS and Javascript. No frameworks used.
+# HangmanGame-Project
 
-## This is a small project written in HTML, CSS and Javascript to implement the basic funcitonalities of a classic hangman game.
+## This is a small project written in HTML, CSS and Javascript to implement the basic funcitonalities of a classic hangman game. No frameworks used.
 
 This project is a course exercise that implements the classic hangman game. Here are the following functionalities:
 
@@ -8,6 +8,14 @@ This project is a course exercise that implements the classic hangman game. Here
 * User will be able to select from three difficulty options (Easy, Medium, Hard)
 * User will start guessing the correct word
 * Game is over on either of two conditions: Word is guessed correctly before hangman is complete or user loses once hangman is complete before word is guessed.
+
+# Technologies used
+```
+- HTML
+- CSS
+- Javascript
+
+```
 
 ## Screenshots
 
@@ -18,12 +26,10 @@ This project is a course exercise that implements the classic hangman game. Here
 ![Screenshot of a general example of user playing the game](./images/example-of-playing-the-game.png)
 
 
-## Some basic git commands:
+## Installation:
 ```
-git status
-git add
-git commit
-git push
+- fork repository.
+- git clone *github-url*
 
 ```
 
@@ -182,13 +188,14 @@ The javascript file contains *all* main functionality and mechanics of the game
     ![new-game](./images/new-game.png)
 
 
-
-# Installation
-- fork repository.
-- git clone *github-url*
-
+## Future contributions
+* Add a leaderboard that will keep track of highest user scores
+* Enrich the pool of random words
+* Add animations to the stick figure and make the canvas more visually appealing
 
 ## Credits
 Thank you for all my instructors and fellow peers in the Per Scholas Cycle 10 for making this project logical and fun to make!
+
+
 
 # You can play the game [here!](https://tamara-703.github.io/HangmanGame-Project/)
