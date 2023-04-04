@@ -53,7 +53,7 @@ function chooseDifficulty() {
     difficulty.children[2].classList.add("red-btn");
 
     difficulty.addEventListener('click', function (event) {
-        //depedning on the innertext of the button, generateblocks and randomwords depending on the difficulty array chosen
+        //generateblocks and randomwords depending on the difficulty array chosen
         if (event.target.innerText === 'EASY') {
             const randomEasyWords = ["apple", "fireworks", "white", "less", "table", "author", "son", "animal", "staff", "jelly", "beekeeper"];
             loseCanvas.classList.remove('hidden');
@@ -143,7 +143,6 @@ function guess(word) {
     const correctWord = word.split("");
     let letterCount = [];
 
-
     console.log(correctWord);
 
     letterContainer.addEventListener('click', function (event) {
@@ -181,9 +180,10 @@ function guess(word) {
             }
         }
 
-
+        //check if user won
         checkIfWon(correctWord);
 
+        //check if user guess is wrong. Decrement user health by 1 and draw the next line in the hangman canvas
         if (found == false) {
             userHealth -= 1;
 
@@ -196,7 +196,7 @@ function guess(word) {
 
         }
 
-
+        //request hint if wrong guesses is more than 3
         if (wrongGuesses > 3) {
             wrongGuesses = 0;
             requestHint(correctWord, dashesContainer);
@@ -205,6 +205,9 @@ function guess(word) {
     })
 }
 
+/* This function will be called once global variable wrongGuesses reaches a max of 3.
+    It will give the player the option to request a hint by pressing the created button element upon the function's call
+*/
 function requestHint(correctWord, dashesContainer) {
 
     const hintBtn = document.createElement('button');
@@ -221,6 +224,7 @@ function requestHint(correctWord, dashesContainer) {
             hintMessage.classList.add('hidden');
             hintMessage.firstElementChild.remove();
 
+            //run the length of the correct word and push all letter that are not included (guessed) in the local array
             for (let j = 0; j < correctWord.length; j++) {
                 if (correctWord[j] === dashesContainer.children[j].innerText)
                 {
@@ -230,10 +234,12 @@ function requestHint(correctWord, dashesContainer) {
 
             }
 
+            //run the length of the local array and store a random letter into the local string variable. This will be the hinted letter
             for (let i = 0; i < notIncluded.length; i++) {
                 randomLetter = notIncluded[i];
             }
 
+            //check if the newly populated hinted letter matches with any already guessed letters by the user.
             for (let y = 0; y < dashesContainer.childElementCount; y++) {
                 if (randomLetter === dashesContainer.children[y].innerText) {
                     dashesContainer.children[y].innerText = randomLetter.toUpperCase();
@@ -254,6 +260,7 @@ function requestHint(correctWord, dashesContainer) {
 
         }
 
+        //check if player won
         checkIfWon(correctWord);
 
     })
@@ -274,7 +281,7 @@ function checkIfWon(correctWord) {
     }
 }
 
-//create a method that will be used once we draw each of the hangman's lines
+//create a method that will be used to draw each of the hangman's lines
 const drawLine = (fromX, fromY, toX, toY) => {
     ctx.moveTo(fromX, fromY);
     ctx.lineTo(toX, toY);
@@ -299,51 +306,54 @@ function drawCanvas(userHealth) {
     ctx.lineWidth = 2;
 
     switch (userHealth) {
-        //draw head
+
         case 9:
+            //head
             ctx.beginPath();
             ctx.arc(70, 50, 10, 0, Math.PI * 2, true);
             ctx.stroke();
             break;
-        //draw body
+
         case 8:
+            //body
             drawLine(70, 60, 70, 100);
             break;
-        //left arm
+
         case 7:
-            //drawLine(70, 50, 50, 70);
+            //left arm
             drawLine(70, 80, 50, 70);
             break;
-        //right arm
+
         case 6:
-            //drawLine(70, 50, 90, 70);
+            //right arm
             drawLine(70, 80, 90, 70);
             break;
-        //left leg
+
         case 5:
-            //drawLine(70, 80, 50, 110);
+            //left leg
             drawLine(70, 100, 50, 110);
             break;
-        //right leg
+
         case 4:
+            //right leg
             drawLine(70, 100, 90, 110);
             break;
-        //left eye
+
         case 3:
-            //ctx.arc(60, 65, 5, 0, Math.PI * 2, true); // Left eye
+            // Left eye
             ctx.arc(65, 50, 2, 0, Math.PI * 2, true);
             //ctx.moveTo(95, 65);
             ctx.stroke();
             break;
-        //right eye
+
         case 2:
-            //ctx.arc(90, 65, 5, 0, Math.PI * 2, true); // Right eye
+            // Right eye
             ctx.arc(75, 50, 2, 0, Math.PI * 2, true);
             ctx.stroke();
             break;
-        //sad mouth
+
         case 1:
-            // ctx.arc(75, 75, 35, 0, Math.PI, false);
+            //sad mouth
             ctx.arc(70, 60, 5, 0, Math.PI, true);
             ctx.stroke();
             userHealth -= 1;
@@ -365,7 +375,7 @@ function checkIfLose(userHealth) {
 
         statusMessage.classList.remove('hidden');
         statusMessage.appendChild(userLost);
-        
+
         //settimeout for the wonMessage
         setTimeout(hideMessage, 5000);
     }
