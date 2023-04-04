@@ -10,9 +10,8 @@ This project is a course exercise that implements the classic hangman game. Here
 * Game is over on either of two conditions: Word is guessed correctly before hangman is complete or user loses once hangman is complete before word is guessed.
 
 ## Screenshots
-<img src="/images/Start-Game.png" alt="Screenshot of the start game of the page]">
-<video src="/images/choose-difficulty-page.mp4" alt="Video screenshot of user choosing difficulty">
-<img src="/images/example-of-playing-the-game.png" alt="Screenshot of a general example of user playing the game">
+![Screenshot of the start game of the page] (./images/Start-Game.png);
+![Screenshot of a general example of user playing the game] (./images/example-of-playing-the-game.png)
 
 
 ## Some basic git command:
@@ -23,3 +22,7 @@ git commit
 git push
 
 ```
+
+## Game functionality
+### HTML file
+The html file contains the basic layout of the game page. Here is a screenshot of

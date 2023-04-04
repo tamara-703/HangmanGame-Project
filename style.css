@@ -7,7 +7,6 @@
 }
 
 body {
-    /* background-color: #8c52ff; */
     background-color: lightblue;
     height: 100%;
     width: 100%;
@@ -137,11 +136,6 @@ body {
     margin-left: 800px;
 
 }
-
-/* .hint {
-    margin-left: 920px;
-    margin-top: 150px;
-} */
 
 .status-message-container {
     display: flex;
