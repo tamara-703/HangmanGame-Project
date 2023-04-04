@@ -175,12 +175,18 @@ The javascript file contains *all* main functionality and mechanics of the game
 
 12. **resetGame()**
     > * Parameters: None
-    > * Event listeners: None
+    > * Event listeners: 1
     * Resets webpage
+    * Creates a new html button that asks the user if they want to play a new game. This button is created if either game is won or lost
+
+    ![new-game](./images/new-game.png)
+
+
 
 # Installation
 - fork repository.
 - git clone *github-url*
+
 
 ## Credits
 Thank you for all my instructors and fellow peers in the Per Scholas Cycle 10 for making this project logical and fun to make!
