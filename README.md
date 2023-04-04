@@ -9,6 +9,8 @@ This project is a course exercise that implements the classic hangman game. Here
 * User will start guessing the correct word
 * Game is over on either of two conditions: Word is guessed correctly before hangman is complete or user loses once hangman is complete before word is guessed.
 
+# You can play the game [here!](https://tamara-703.github.io/HangmanGame-Project/)
+
 # Technologies used
 ```
 - HTML
@@ -198,7 +200,3 @@ The javascript file contains *all* main functionality and mechanics of the game
 
 ## Credits
 Thank you for all my instructors and fellow peers in the Per Scholas Cycle 10 for making this project logical and fun to make!
-
-
-
-# You can play the game [here!](https://tamara-703.github.io/HangmanGame-Project/)
